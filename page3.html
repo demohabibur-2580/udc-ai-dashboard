@@ -423,6 +423,7 @@
           },
           body: JSON.stringify({
             model: conf.model,
+            max_tokens: 1220,
             messages: [
               { role: "system", content: conf.systemPrompt },
               { role: "user", content: messageContent }
