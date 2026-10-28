@@ -7,9 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script>
-    // Save last visited page for persistence
     localStorage.setItem('last_visited_page', 'index.html');
-
     tailwind.config = {
       darkMode: 'class',
       theme: {
@@ -63,7 +61,7 @@
   </header>
 
   <main class="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
-    
+
     <nav class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 bg-slate-900/60 p-1.5 rounded-2xl border border-slate-800/80 backdrop-blur-sm">
       <button onclick="switchTab(1)" id="tab-1" class="tab-btn active-tab flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200">
         <i class="fa-solid fa-file-pen text-sm"></i> <span>১. দরখাস্ত</span>
@@ -86,7 +84,7 @@
     </nav>
 
     <div class="bg-slate-900/70 border border-slate-800/80 rounded-2xl p-5 sm:p-7 shadow-2xl backdrop-blur-md space-y-6">
-      
+
       <div class="space-y-3">
         <div class="flex justify-between items-center">
           <label id="inputPromptLabel" class="text-sm font-semibold text-slate-300 flex items-center gap-2">
@@ -103,11 +101,10 @@
         <label class="text-sm font-semibold text-slate-300 flex items-center gap-2">
           <i class="fa-solid fa-image text-brand-500"></i> <span>নথি/ফরম বা ফাইলের ছবি ড্রাগ করুন অথবা সিলেক্ট করুন:</span>
         </label>
-        
+
         <div id="dropZone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleFileDrop(event)" onclick="document.getElementById('imageFileInput').click()" class="relative border-2 border-dashed border-slate-700 hover:border-brand-500/60 rounded-xl p-6 text-center bg-slate-950/40 hover:bg-slate-950/70 transition-all cursor-pointer group">
-          
           <input type="file" id="imageFileInput" accept="image/*" class="hidden" onchange="handleImageSelected(event)">
-          
+
           <div id="uploadPlaceholder" class="space-y-2">
             <i class="fa-solid fa-cloud-arrow-up text-3xl text-slate-500 group-hover:text-brand-500 transition-colors"></i>
             <p class="text-xs text-slate-400 font-medium">কম্পিউটার বা মোবাইল থেকে ছবি এখানে ড্রাগ এন্ড ড্রপ করুন</p>
@@ -131,7 +128,7 @@
           <i class="fa-solid fa-images text-brand-500"></i>
           <span>স্মার্ট মিলকরণ: ৩টি ড্রাগ এন্ড ড্রপ বক্সে ছবি আপলোড করুন</span>
         </label>
-        
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
           <div id="dropZone1" ondragover="handleMultiDragOver(event, 1)" ondragleave="handleMultiDragLeave(event, 1)" ondrop="handleMultiFileDrop(event, 1)" onclick="triggerFileInput(1)" class="relative border-2 border-dashed border-slate-700 hover:border-brand-500/60 rounded-xl p-3 text-center bg-slate-950/40 hover:bg-slate-950/70 transition-all cursor-pointer group flex flex-col justify-center min-h-[140px]">
             <input type="file" id="imageFileInput1" accept="image/*" multiple class="hidden" onchange="handleMultiImageSelected(event, 1)">
@@ -228,12 +225,8 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-          
           <div class="space-y-1">
-            <label class="text-xs font-semibold text-slate-300 flex justify-between">
-              <span>১. নাম (বাংলা):</span>
-              <span class="text-[10px] text-slate-500">BN</span>
-            </label>
+            <label class="text-xs font-semibold text-slate-300 flex justify-between"><span>১. নাম (বাংলা):</span><span class="text-[10px] text-slate-500">BN</span></label>
             <div class="flex gap-2">
               <input type="text" id="ff_name_bn" placeholder="যেমন: মোঃ রফিকুল ইসলাম" class="form-field-input">
               <button onclick="copySingleField('ff_name_bn')" class="form-field-copy-btn" title="কপি করুন"><i class="fa-regular fa-copy"></i></button>
@@ -241,10 +234,7 @@
           </div>
 
           <div class="space-y-1">
-            <label class="text-xs font-semibold text-slate-300 flex justify-between">
-              <span>২. নাম (ইংরেজি):</span>
-              <span class="text-[10px] text-slate-500">EN (ALL CAPS)</span>
-            </label>
+            <label class="text-xs font-semibold text-slate-300 flex justify-between"><span>২. নাম (ইংরেজি):</span><span class="text-[10px] text-slate-500">EN</span></label>
             <div class="flex gap-2">
               <input type="text" id="ff_name_en" placeholder="EX: MD. ROFIQUL ISLAM" oninput="this.value = this.value.toUpperCase()" class="form-field-input font-mono">
               <button onclick="copySingleField('ff_name_en')" class="form-field-copy-btn" title="কপি করুন"><i class="fa-regular fa-copy"></i></button>
@@ -252,10 +242,7 @@
           </div>
 
           <div class="space-y-1">
-            <label class="text-xs font-semibold text-slate-300 flex justify-between">
-              <span>৩. পিতা/স্বামীর নাম (বাংলা):</span>
-              <span class="text-[10px] text-slate-500">BN</span>
-            </label>
+            <label class="text-xs font-semibold text-slate-300 flex justify-between"><span>৩. পিতা/স্বামীর নাম (বাংলা):</span><span class="text-[10px] text-slate-500">BN</span></label>
             <div class="flex gap-2">
               <input type="text" id="ff_father_bn" placeholder="যেমন: মোঃ আব্দুল লতিফ" class="form-field-input">
               <button onclick="copySingleField('ff_father_bn')" class="form-field-copy-btn" title="কপি করুন"><i class="fa-regular fa-copy"></i></button>
@@ -263,10 +250,7 @@
           </div>
 
           <div class="space-y-1">
-            <label class="text-xs font-semibold text-slate-300 flex justify-between">
-              <span>৪. পিতা/স্বামীর নাম (ইংরেজি):</span>
-              <span class="text-[10px] text-slate-500">EN (ALL CAPS)</span>
-            </label>
+            <label class="text-xs font-semibold text-slate-300 flex justify-between"><span>৪. পিতা/স্বামীর নাম (ইংরেজি):</span><span class="text-[10px] text-slate-500">EN</span></label>
             <div class="flex gap-2">
               <input type="text" id="ff_father_en" placeholder="EX: MD. ABDUL LATIF" oninput="this.value = this.value.toUpperCase()" class="form-field-input font-mono">
               <button onclick="copySingleField('ff_father_en')" class="form-field-copy-btn" title="কপি করুন"><i class="fa-regular fa-copy"></i></button>
@@ -274,10 +258,7 @@
           </div>
 
           <div class="space-y-1">
-            <label class="text-xs font-semibold text-slate-300 flex justify-between">
-              <span>৫. মাতার নাম (বাংলা):</span>
-              <span class="text-[10px] text-slate-500">BN</span>
-            </label>
+            <label class="text-xs font-semibold text-slate-300 flex justify-between"><span>৫. মাতার নাম (বাংলা):</span><span class="text-[10px] text-slate-500">BN</span></label>
             <div class="flex gap-2">
               <input type="text" id="ff_mother_bn" placeholder="যেমন: মোসাম্মৎ খাতুন" class="form-field-input">
               <button onclick="copySingleField('ff_mother_bn')" class="form-field-copy-btn" title="কপি করুন"><i class="fa-regular fa-copy"></i></button>
@@ -285,10 +266,7 @@
           </div>
 
           <div class="space-y-1">
-            <label class="text-xs font-semibold text-slate-300 flex justify-between">
-              <span>৬. মাতার নাম (ইংরেজি):</span>
-              <span class="text-[10px] text-slate-500">EN (ALL CAPS)</span>
-            </label>
+            <label class="text-xs font-semibold text-slate-300 flex justify-between"><span>৬. মাতার নাম (ইংরেজি):</span><span class="text-[10px] text-slate-500">EN</span></label>
             <div class="flex gap-2">
               <input type="text" id="ff_mother_en" placeholder="EX: MST. KHATUN" oninput="this.value = this.value.toUpperCase()" class="form-field-input font-mono">
               <button onclick="copySingleField('ff_mother_en')" class="form-field-copy-btn" title="কপি করুন"><i class="fa-regular fa-copy"></i></button>
@@ -296,10 +274,7 @@
           </div>
 
           <div class="space-y-1">
-            <label class="text-xs font-semibold text-slate-300 flex justify-between">
-              <span>৭. জন্ম তারিখ / NID / BRN:</span>
-              <span class="text-[10px] text-brand-400 font-mono">ID / DATE</span>
-            </label>
+            <label class="text-xs font-semibold text-slate-300 flex justify-between"><span>৭. জন্ম তারিখ / NID / BRN:</span><span class="text-[10px] text-brand-400 font-mono">ID / DATE</span></label>
             <div class="flex gap-2">
               <input type="text" id="ff_id_date" placeholder="যেমন: 1995-05-12 / NID: 19283..." class="form-field-input font-mono">
               <button onclick="copySingleField('ff_id_date')" class="form-field-copy-btn" title="কপি করুন"><i class="fa-regular fa-copy"></i></button>
@@ -307,10 +282,7 @@
           </div>
 
           <div class="space-y-1">
-            <label class="text-xs font-semibold text-slate-300 flex justify-between">
-              <span>৮. গ্রাম (বাংলা):</span>
-              <span class="text-[10px] text-slate-500">BN</span>
-            </label>
+            <label class="text-xs font-semibold text-slate-300 flex justify-between"><span>৮. গ্রাম (বাংলা):</span><span class="text-[10px] text-slate-500">BN</span></label>
             <div class="flex gap-2">
               <input type="text" id="ff_village_bn" placeholder="যেমন: কমলপুর" class="form-field-input">
               <button onclick="copySingleField('ff_village_bn')" class="form-field-copy-btn" title="কপি করুন"><i class="fa-regular fa-copy"></i></button>
@@ -318,10 +290,7 @@
           </div>
 
           <div class="space-y-1">
-            <label class="text-xs font-semibold text-slate-300 flex justify-between">
-              <span>৯. গ্রাম (ইংরেজি):</span>
-              <span class="text-[10px] text-slate-500">EN</span>
-            </label>
+            <label class="text-xs font-semibold text-slate-300 flex justify-between"><span>৯. গ্রাম (ইংরেজি):</span><span class="text-[10px] text-slate-500">EN</span></label>
             <div class="flex gap-2">
               <input type="text" id="ff_village_en" placeholder="EX: KAMALPUR" oninput="this.value = this.value.toUpperCase()" class="form-field-input font-mono">
               <button onclick="copySingleField('ff_village_en')" class="form-field-copy-btn" title="কপি করুন"><i class="fa-regular fa-copy"></i></button>
@@ -329,10 +298,7 @@
           </div>
 
           <div class="space-y-1">
-            <label class="text-xs font-semibold text-slate-300 flex justify-between">
-              <span>১০. ডাকঘর ও উপজেলা (বাংলা):</span>
-              <span class="text-[10px] text-slate-500">BN</span>
-            </label>
+            <label class="text-xs font-semibold text-slate-300 flex justify-between"><span>১০. ডাকঘর ও উপজেলা (বাংলা):</span><span class="text-[10px] text-slate-500">BN</span></label>
             <div class="flex gap-2">
               <input type="text" id="ff_post_upazila_bn" placeholder="যেমন: ডাকঘর: কমলপুর, উপজেলা: ..." class="form-field-input">
               <button onclick="copySingleField('ff_post_upazila_bn')" class="form-field-copy-btn" title="কপি করুন"><i class="fa-regular fa-copy"></i></button>
@@ -340,10 +306,7 @@
           </div>
 
           <div class="space-y-1 md:col-span-2">
-            <label class="text-xs font-semibold text-slate-300 flex justify-between">
-              <span>১১. ডাকঘর ও উপজেলা (ইংরেজি):</span>
-              <span class="text-[10px] text-slate-500">EN</span>
-            </label>
+            <label class="text-xs font-semibold text-slate-300 flex justify-between"><span>১১. ডাকঘর ও উপজেলা (ইংরেজি):</span><span class="text-[10px] text-slate-500">EN</span></label>
             <div class="flex gap-2">
               <input type="text" id="ff_post_upazila_en" placeholder="EX: P.O: KAMALPUR, UPAZILA: ..." oninput="this.value = this.value.toUpperCase()" class="form-field-input font-mono">
               <button onclick="copySingleField('ff_post_upazila_en')" class="form-field-copy-btn" title="কপি করুন"><i class="fa-regular fa-copy"></i></button>
@@ -351,19 +314,14 @@
           </div>
 
           <div class="space-y-1 md:col-span-2">
-            <label class="text-xs font-semibold text-slate-300 flex justify-between">
-              <span>১২. অন্যান্য নোট / অতিরিক্ত তথ্য:</span>
-              <span class="text-[10px] text-slate-500">NOTES</span>
-            </label>
+            <label class="text-xs font-semibold text-slate-300 flex justify-between"><span>১২. অন্যান্য নোট / অতিরিক্ত তথ্য:</span><span class="text-[10px] text-slate-500">NOTES</span></label>
             <div class="flex gap-2">
               <textarea id="ff_notes" rows="2" placeholder="অন্যান্য বিবরণ..." class="form-field-input resize-y"></textarea>
               <button onclick="copySingleField('ff_notes')" class="form-field-copy-btn" title="কপি করুন"><i class="fa-regular fa-copy"></i></button>
             </div>
           </div>
-
         </div>
       </div>
-
     </div>
   </main>
 
@@ -373,7 +331,6 @@
 
   <div id="settingsModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
     <div class="bg-slate-900 border border-slate-800 w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-5">
-      
       <div class="flex justify-between items-center border-b border-slate-800 pb-3">
         <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
           <i class="fa-solid fa-key text-brand-500"></i> OpenRouter API সেটআপ
@@ -385,7 +342,7 @@
 
       <div class="space-y-4">
         <div>
-          <label class="block text-xs font-medium text-slate-400 mb-1.5">OpenRouter / Omniroute API Key প্রদান করুন:</label>
+          <label class="block text-xs font-medium text-slate-400 mb-1.5">OpenRouter API Key প্রদান করুন:</label>
           <div class="relative">
             <input type="password" id="apiKeyInputField" placeholder="sk-or-v1-..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500">
             <button onclick="toggleKeyVisibility()" class="absolute right-3 top-2.5 text-slate-500 hover:text-slate-300 text-xs">
@@ -465,26 +422,20 @@
     let activeTabId = 1;
     let selectedImageBase64 = null;
     let module4Files = { 1: [], 2: [], 3: [] };
-    let currentImageBase64 = null;
 
     let systemPrompts = [
       "আপনি UDC এআই সহকারী। নাগরিকের দেওয়া তথ্য অনুযায়ী চেয়ারম্যান বরাবরে নিখুঁত আবেদনপত্র তৈরি করুন। ভাষা হবে সহজ, আনুষ্ঠানিক, সরকারি-স্টাইল, এবং প্রয়োজন অনুযায়ী ফরম্যাটেড।",
       "আপনি প্রমিত বাংলা বিশেষজ্ঞ। প্রদানকৃত খসড়ার বানান, ব্যাকরণ, ভাষা ও ফরম্যাট ঠিক করে সরকারি-স্টাইলের সংশোধিত সংস্করণ দিন।",
       "আপনি নাম ও ঠিকানা অনুবাদক। প্রদানকৃত বাংলা নাম ও ঠিকানা ALL CAPS ইংরেজি অনুবাদ করুন। উদাহরণ: মোঃ রফিকুল ইসলাম -> MD. ROFIQUL ISLAM",
-      `আপনি একটি অত্যন্ত বিচক্ষণ স্মার্ট OCR এবং তথ্য যাচাইকারী এআই সহকারী। 
+      `আপনি একটি অত্যন্ত বিচক্ষণ স্মার্ট OCR এবং তথ্য যাচাইকারী এআই সহকারী।
 আপলোডকৃত ৩টি ক্যাটাগরির (১. নিজ নথি, ২. পিতার নথি, ৩. মাতার/অন্যান্য নথি) প্রতিটি ছবির তথ্য বিশ্লেষণ করুন।
 
 আপনার প্রধান কাজ ২টি:
-১. **ক্রস-ম্যাচিং ও অমিল/মিল বিশ্লেষণ:**
-   - ৩টি নথির মধ্যে নাম, পিতা/স্বামীর নাম, মাতার নাম, জন্ম তারিখ/NID ইত্যাদির মিল/অমিল বিশ্লেষণ করুন।
-   - inconsistency থাকলে তা উল্লেখ করুন।
+১. ক্রস-ম্যাচিং ও অমিল/মিল বিশ্লেষণ
+২. তথ্য এক্সট্রাকশন (অটো-ফিল ফরম্যাটের জন্য)
 
-২. **তথ্য এক্সট্রাকশন (অটো-ফিল ফরম্যাটের জন্য):**
-   - বিশেষ অনুবাদ নিয়ম: বাংলা নামের সংক্ষিপ্ত রূপ 'মোছা:', 'মোসা:', 'মোসাম্মৎ' ইত্যাদি ঠিকভাবে English form তৈরি করুন।
-   - মানসম্মত English text দিন।
-
-অবশ্যই নিচের ফরম্যাট হুবহু বজায় রেখে আউটপুট দিন:
-- মিল ও গরমিল বিশ্লেষণ: [সংক্ষেপে সকল নথির মধ্যে তথ্যের মিল/অমিল বিবরণ]
+অবশ্যই নিচের ফরম্যাট অনুযায়ী আউটপুট দিন:
+- মিল ও গরমিল বিশ্লেষণ: [সংক্ষেপে তথ্যের মিল/অমিল]
 - নাম (বাংলা): ...
 - নাম (ইংরেজি): ...
 - পিতা/স্বামীর নাম (বাংলা): ...
@@ -497,21 +448,18 @@
 - ডাকঘর ও উপজেলা (বাংলা): ...
 - ডাকঘর ও উপজেলা (ইংরেজি): ...`,
       "আপনি ইউনিয়ন ডিজিটাল সেন্টার (UDC) স্মার্ট এআই সহকারী। ফাইল বা ছবিতে থাকা তথ্য থেকে ব্যবহারকারীকে সঠিক, বাস্তবসম্মত, সরকারি-স্টাইল উত্তর দিন।",
-      "আপনি একজন দক্ষ ওয়েব ডেভেলপার ও ড্যাশবোর্ড কোডার। ব্যবহারকারীর চাহিদা অনুযায়ী HTML, CSS, JavaScript code লিখুন, বেস্ট প্রাকটিস অনুযায়ী clean ও production-ready কোড দিন।"
+      "আপনি একজন দক্ষ ওয়েব ডেভেলপার ও ড্যাশবোর্ড কোডার। ব্যবহারকারীর চাহিদা অনুযায়ী HTML, CSS, JavaScript code লিখুন, clean ও production-ready কোড দিন।"
     ];
 
     document.addEventListener("DOMContentLoaded", () => {
       checkSavedApiKeyStatus();
       switchTab(1);
+      renderHistoryList();
     });
-
-    function getPreferredApiKey() {
-      return localStorage.getItem('omniroute_key') || localStorage.getItem('openrouter_key') || '';
-    }
 
     function switchTab(index) {
       activeTabId = index;
-      
+
       for (let i = 1; i <= 6; i++) {
         const btn = document.getElementById(`tab-${i}`);
         if (i === index) {
@@ -531,7 +479,6 @@
       ];
 
       const currentConfig = moduleConfigs[index - 1];
-
       document.querySelector('#inputPromptLabel span').innerText = currentConfig.label;
       document.getElementById('userTextInput').placeholder = currentConfig.placeholder;
       document.querySelector('#generateBtn span').innerText = currentConfig.btnText;
@@ -551,8 +498,8 @@
       } else if (index === 5) {
         singleOcrBox.classList.remove('hidden');
         multiOcrBox.classList.add('hidden');
-        formFielderBox.classList.remove('hidden');
-        autoPopulateBtn.classList.remove('hidden');
+        formFielderBox.classList.add('hidden');
+        autoPopulateBtn.classList.add('hidden');
         injectBtn.classList.add('hidden');
       } else if (index === 6) {
         singleOcrBox.classList.add('hidden');
@@ -589,18 +536,13 @@
       e.preventDefault();
       e.stopPropagation();
       document.getElementById(`dropZone${boxNum}`).classList.remove('border-brand-500', 'bg-brand-500/10');
-      
       const files = e.dataTransfer.files;
-      if (files && files.length > 0) {
-        processMultiFiles(files, boxNum);
-      }
+      if (files && files.length > 0) processMultiFiles(files, boxNum);
     }
 
     function handleMultiImageSelected(e, boxNum) {
       const files = e.target.files;
-      if (files && files.length > 0) {
-        processMultiFiles(files, boxNum);
-      }
+      if (files && files.length > 0) processMultiFiles(files, boxNum);
     }
 
     function processMultiFiles(files, boxNum) {
@@ -609,13 +551,9 @@
           showToast("শুধুমাত্র ছবি/ইমেজ ফাইল নির্বাচন করুন", true);
           return;
         }
-
         const reader = new FileReader();
         reader.onload = function (e) {
-          module4Files[boxNum].push({
-            name: file.name,
-            base64: e.target.result
-          });
+          module4Files[boxNum].push({ name: file.name, base64: e.target.result });
           renderFileList(boxNum);
         };
         reader.readAsDataURL(file);
@@ -637,9 +575,7 @@
         item.className = 'flex items-center justify-between bg-slate-900/90 px-2 py-1 rounded border border-slate-800 text-slate-300';
         item.innerHTML = `
           <span class="truncate max-w-[110px] text-[10px]"><i class="fa-regular fa-image text-brand-400 mr-1"></i>${file.name}</span>
-          <button type="button" onclick="removeMultiFile(${boxNum}, ${idx}, event)" class="text-red-400 hover:text-red-300 ml-1">
-            <i class="fa-solid fa-xmark text-xs"></i>
-          </button>
+          <button type="button" onclick="removeMultiFile(${boxNum}, ${idx}, event)" class="text-red-400 hover:text-red-300 ml-1"><i class="fa-solid fa-xmark text-xs"></i></button>
         `;
         container.appendChild(item);
       });
@@ -661,11 +597,8 @@
       e.preventDefault();
       e.stopPropagation();
       document.getElementById('dropZone').classList.remove('border-brand-500', 'bg-brand-500/10');
-      
       const files = e.dataTransfer.files;
-      if (files && files.length > 0) {
-        processImageFile(files[0]);
-      }
+      if (files && files.length > 0) processImageFile(files[0]);
     }
 
     function handleImageSelected(event) {
@@ -682,7 +615,6 @@
       const reader = new FileReader();
       reader.onload = function (e) {
         selectedImageBase64 = e.target.result;
-        currentImageBase64 = e.target.result;
         document.getElementById('imagePreview').src = selectedImageBase64;
         document.getElementById('fileNameDisplay').innerText = file.name;
         document.getElementById('uploadPlaceholder').classList.add('hidden');
@@ -694,7 +626,6 @@
     function removeSelectedImage(event) {
       if (event) event.stopPropagation();
       selectedImageBase64 = null;
-      currentImageBase64 = null;
       document.getElementById('imageFileInput').value = '';
       document.getElementById('uploadPlaceholder').classList.remove('hidden');
       document.getElementById('previewContainer').classList.add('hidden');
@@ -736,7 +667,7 @@
     }
 
     function checkSavedApiKeyStatus() {
-      const key = localStorage.getItem('openrouter_key') || localStorage.getItem('omniroute_key');
+      const key = localStorage.getItem('openrouter_key') || localStorage.getItem('omniroute_key') || '';
       const badge = document.getElementById('keyStatusBadge');
       if (key && key.length > 10) {
         badge.className = "hidden sm:inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
@@ -748,17 +679,12 @@
     }
 
     async function executeAIProcess() {
-      if (activeTabId === 5 && selectedImageBase64) {
-        try {
-          await executeOCRScan();
-          return;
-        } catch (error) {
-          showToast("OCR প্রসেস ব্যর্থ হয়েছে", true);
-          return;
-        }
+      if (activeTabId === 4) {
+        await executeOCRScan();
+        return;
       }
 
-      const apiKey = localStorage.getItem('openrouter_key');
+      const apiKey = localStorage.getItem('openrouter_key') || localStorage.getItem('omniroute_key');
       if (!apiKey) {
         showToast("প্রথমে সেটিংস থেকে API Key সেভ করুন", true);
         openSettingsModal();
@@ -766,17 +692,11 @@
       }
 
       const textInput = document.getElementById('userTextInput').value.trim();
-      
-      if (activeTabId === 4) {
-        const totalFiles = module4Files[1].length + module4Files[2].length + module4Files[3].length;
-        if (totalFiles === 0 && !textInput) {
-          showToast("প্রসেস করতে অন্তত ১টি বক্সে ছবি দিন অথবা বিষয় লিখুন", true);
-          return;
-        }
-      } else if (activeTabId === 5 && !selectedImageBase64 && !textInput) {
+      if (activeTabId === 5 && !selectedImageBase64 && !textInput) {
         showToast("প্রসেস করতে ছবি আপলোড করুন অথবা বিষয় টাইপ করুন", true);
         return;
-      } else if (activeTabId !== 4 && activeTabId !== 5 && !textInput) {
+      }
+      if (activeTabId !== 4 && activeTabId !== 5 && !textInput) {
         showToast("প্রসেস করার জন্য প্রয়োজনীয় বিবরণ লিখুন", true);
         return;
       }
@@ -787,36 +707,10 @@
       outputBox.innerText = "";
 
       let userMessageContent = [];
-
-      if (textInput) {
-        userMessageContent.push({ type: "text", text: textInput });
-      }
-
-      if (activeTabId === 4) {
-        const categoryLabels = ["নিজ তথ্য/সনদ", "পিতার নথি", "মাতার/অন্যান্য নথি"];
-        for (let b = 1; b <= 3; b++) {
-          module4Files[b].forEach((fileObj, idx) => {
-            userMessageContent.push({
-              type: "text",
-              text: `--- [ক্যাটাগরি-${b} (${categoryLabels[b-1]}) - ছবি #${idx+1}: ${fileObj.name}] ---`
-            });
-            userMessageContent.push({
-              type: "image_url",
-              image_url: { url: fileObj.base64 }
-            });
-          });
-        }
-        if (!textInput) {
-          userMessageContent.push({ type: "text", text: "এই সকল আপলোডকৃত নথি বিশ্লেষণ করে নাম, পিতা/মাতার নামের মিল/অমিল ও ডেটা এক্সট্রাক্ট করুন।" });
-        }
-      } else if (activeTabId === 5 && selectedImageBase64) {
-        userMessageContent.push({
-          type: "image_url",
-          image_url: { url: selectedImageBase64 }
-        });
-        if (!textInput) {
-          userMessageContent.push({ type: "text", text: "এই ছবিটি বিশ্লেষণ ও OCR স্ক্যান করে ব্যবহারকারীর প্রয়োজন অনুযায়ী উত্তর দিন।" });
-        }
+      if (textInput) userMessageContent.push({ type: "text", text: textInput });
+      if (activeTabId === 5 && selectedImageBase64) {
+        userMessageContent.push({ type: "image_url", image_url: { url: selectedImageBase64 } });
+        if (!textInput) userMessageContent.push({ type: "text", text: "এই ছবিটি বিশ্লেষণ ও OCR স্ক্যান করে ব্যবহারকারীর প্রয়োজন অনুযায়ী উত্তর দিন।" });
       }
 
       try {
@@ -839,15 +733,11 @@
         });
 
         const data = await response.json();
-
         if (response.ok && data.choices && data.choices.length > 0) {
           const resultText = data.choices[0].message.content;
           outputBox.innerText = resultText;
           showToast("ফলাফল প্রস্তুত হয়েছে!");
-
-          if (activeTabId === 4) {
-            autoPopulateFormFields(resultText);
-          }
+          if (activeTabId === 4) autoPopulateFormFields(resultText);
         } else {
           const errorMsg = data.error?.message || "API সাড়াদানে ব্যর্থ হয়েছে।";
           outputBox.innerText = `⚠️ ত্রুটি: ${errorMsg}`;
@@ -862,16 +752,22 @@
     }
 
     async function executeOCRScan() {
-      const apiKey = getPreferredApiKey();
+      const apiKey = localStorage.getItem('openrouter_key') || localStorage.getItem('omniroute_key');
       if (!apiKey) {
-        showToast("প্রথমে সেটিংস থেকে API Key সেভ করুন", true);
+        showToast("প্রথমে সেটিংস থেকে OpenRouter API Key সেভ করুন", true);
         openSettingsModal();
-        throw new Error('No API key');
+        return;
       }
 
-      if (!currentImageBase64 && !selectedImageBase64) {
-        showToast("প্রথমে একটি ছবি আপলোড করুন", true);
-        throw new Error('No image');
+      const files = [];
+      for (let b = 1; b <= 3; b++) {
+        module4Files[b].forEach(file => files.push({ label: b, name: file.name, base64: file.base64 }));
+      }
+
+      const textInput = document.getElementById('userTextInput').value.trim();
+      if (files.length === 0 && !textInput) {
+        showToast("প্রসেস করতে অন্তত ১টি নথি আপলোড করুন অথবা বিবরণ লিখুন", true);
+        return;
       }
 
       const loader = document.getElementById('loadingOverlay');
@@ -879,19 +775,19 @@
       loader.classList.remove('hidden');
       outputBox.innerText = "";
 
-      const systemPrompt = `আপনি একজন নির্ভুল OCR এবং ডকুমেন্ট ডেটা এক্সট্র্যাক্টর এআই।
+      const userMessageContent = [];
+      if (textInput) userMessageContent.push({ type: "text", text: textInput });
+      files.forEach((file, index) => {
+        userMessageContent.push({ type: "text", text: `--- [ক্যাটাগরি-${file.label} - ছবি #${index + 1}: ${file.name}] ---` });
+        userMessageContent.push({ type: "image_url", image_url: { url: file.base64 } });
+      });
+      if (!textInput) userMessageContent.push({ type: "text", text: "এই নথিগুলো বিশ্লেষণ করে নাম, পিতা/মাতা নাম, গ্রাম, জন্মতারিখ/NID/BRN ইত্যাদি বের করুন।" });
+
+      const systemPrompt = `আপনি একজন নির্ভুল OCR ও ডকুমেন্ট তথ্য এক্সট্র্যাক্টর এআই।
 
 নির্দেশনা:
-1. ডকুমেন্ট থেকে নিম্নলিখিত তথ্য ঠিকভাবে বের করুন:
-   - নিজ নাম (বাংলা/ইংরেজি)
-   - পিতার নাম (বাংলা/ইংরেজি)
-   - মাতার নাম (বাংলা/ইংরেজি)
-   - জন্ম তারিখ
-   - জাতীয় পরিচয় পত্র নং
-   - জন্ম নিবন্ধন নং
-   - গ্রাম (বাংলা/ইংরেজি)
-   - অন্যান্য তথ্য
-2. যদি ইমেজে নাম ইংরেজিতে দেওয়া থাকে, সেটি 그대로 রাখুন।
+1. ৩টি নথির মধ্যে মিল/অমিল বিশ্লেষণ করুন।
+2. তথ্যগুলো খুবই নির্ভুলভাবে বের করুন।
 3. JSON format-এ উত্তর দিন, key গুলো ঠিক এভাবে থাকবে:
 {
   "name_bn": "",
@@ -915,102 +811,54 @@
             "Authorization": `Bearer ${apiKey}`,
             "Content-Type": "application/json",
             "HTTP-Referer": window.location.href,
-            "X-Title": "UDC OCR Auto Fielder"
+            "X-Title": "OCR Auto Fielder"
           },
           body: JSON.stringify({
             model: "google/gemini-2.0-flash-exp:free",
             messages: [
               { role: "system", content: systemPrompt },
-              {
-                role: "user",
-                content: [
-                  { type: "text", text: "এই নথির ছবি থেকে তথ্য এক্সট্রাক্ট করে দিন।" },
-                  { type: "image_url", image_url: { url: currentImageBase64 || selectedImageBase64 } }
-                ]
-              }
+              { role: "user", content: userMessageContent }
             ]
           })
         });
 
         const data = await response.json();
-
         if (response.ok && data.choices && data.choices.length > 0) {
           let content = data.choices[0].message.content;
-          content = content.replace(/```json/g, '').replace(/```/g, '').trim();
-          const parsedData = JSON.parse(content);
+          try {
+            content = content.replace(/```json/g, '').replace(/```/g, '').trim();
+            const parsedData = JSON.parse(content);
 
-          const nameBN = parsedData.name_bn || '';
-          const nameEN = (parsedData.name_en || '').toUpperCase();
-          const fatherBN = parsedData.father_bn || '';
-          const fatherEN = (parsedData.father_en || '').toUpperCase();
-          const motherBN = parsedData.mother_bn || '';
-          const motherEN = (parsedData.mother_en || '').toUpperCase();
-          const dob = parsedData.dob || '';
-          const nid = parsedData.nid || '';
-          const brn = parsedData.brn || '';
-          const villageBN = parsedData.village_bn || '';
-          const villageEN = (parsedData.village_en || '').toUpperCase();
-          const misc = parsedData.misc || '';
+            document.getElementById('ff_name_bn').value = parsedData.name_bn || '';
+            document.getElementById('ff_name_en').value = (parsedData.name_en || '').toUpperCase();
+            document.getElementById('ff_father_bn').value = parsedData.father_bn || '';
+            document.getElementById('ff_father_en').value = (parsedData.father_en || '').toUpperCase();
+            document.getElementById('ff_mother_bn').value = parsedData.mother_bn || '';
+            document.getElementById('ff_mother_en').value = (parsedData.mother_en || '').toUpperCase();
+            document.getElementById('ff_id_date').value = parsedData.dob || parsedData.nid || parsedData.brn || '';
+            document.getElementById('ff_village_bn').value = parsedData.village_bn || '';
+            document.getElementById('ff_village_en').value = (parsedData.village_en || '').toUpperCase();
+            document.getElementById('ff_notes').value = parsedData.misc || '';
 
-          document.getElementById('ff_name_bn').value = nameBN;
-          document.getElementById('ff_name_en').value = nameEN;
-          document.getElementById('ff_father_bn').value = fatherBN;
-          document.getElementById('ff_father_en').value = fatherEN;
-          document.getElementById('ff_mother_bn').value = motherBN;
-          document.getElementById('ff_mother_en').value = motherEN;
-          document.getElementById('ff_id_date').value = `${dob}${dob && (nid || brn) ? ' / ' : ''}${nid}${nid && brn ? ' / ' : ''}${brn}`;
-          document.getElementById('ff_village_bn').value = villageBN;
-          document.getElementById('ff_village_en').value = villageEN;
-          document.getElementById('ff_post_upazila_bn').value = '';
-          document.getElementById('ff_post_upazila_en').value = '';
-          document.getElementById('ff_notes').value = misc;
-
-          outputBox.innerText = JSON.stringify(parsedData, null, 2);
-          showToast("OCR স্ক্যান ও ডেটা এক্সট্রাক্ট সফল হয়েছে!");
-          saveCurrentRecord(false);
+            outputBox.innerText = JSON.stringify(parsedData, null, 2);
+            showToast("OCR স্ক্যান ও ডেটা এক্সট্রাক্ট সফল হয়েছে!");
+            if (parsedData.name_bn) saveCurrentRecord(false);
+          } catch (jsonErr) {
+            console.error('JSON Parse Error:', jsonErr);
+            outputBox.innerText = `⚠️ OCR JSON parse failed: ${String(jsonErr)}`;
+            showToast("ডেটা ফরম্যাট পার্স করতে সমস্যা হয়েছে", true);
+          }
         } else {
-          const errMsg = data.error?.message || 'API সাড়াদানে ব্যর্থ হয়েছে।';
+          const errMsg = data.error?.message || "API সাড়াদানে ব্যর্থ হয়েছে।";
           outputBox.innerText = `⚠️ ত্রুটি: ${errMsg}`;
-          showToast(`ত্রুটি: ${errMsg}`, true);
+          showToast("প্রসেসে ত্রুটি ঘটেছে", true);
         }
       } catch (err) {
         outputBox.innerText = `⚠️ সংযোগ ব্যর্থ হয়েছে: ${err.message}`;
-        showToast(`সংযোগ ব্যর্থ: ${err.message}`, true);
+        showToast("নেটওয়ার্ক সমস্যা", true);
       } finally {
         loader.classList.add('hidden');
       }
-    }
-
-    function saveCurrentRecord(showMsg = true) {
-      const name = document.getElementById('ff_name_bn')?.value.trim() || '';
-      if (!name) {
-        if (showMsg) showToast("সংরক্ষণ করার মতো নাম পাওয়া যায়নি", true);
-        return;
-      }
-
-      const record = {
-        name: name,
-        name_en: document.getElementById('ff_name_en')?.value || '',
-        father_bn: document.getElementById('ff_father_bn')?.value || '',
-        father_en: document.getElementById('ff_father_en')?.value || '',
-        mother_bn: document.getElementById('ff_mother_bn')?.value || '',
-        mother_en: document.getElementById('ff_mother_en')?.value || '',
-        dob: document.getElementById('ff_id_date')?.value || '',
-        nid: document.getElementById('ff_id_date')?.value || '',
-        brn: document.getElementById('ff_id_date')?.value || '',
-        village_bn: document.getElementById('ff_village_bn')?.value || '',
-        village_en: document.getElementById('ff_village_en')?.value || '',
-        misc: document.getElementById('ff_notes')?.value || '',
-        timestamp: new Date().toLocaleString('bn-BD')
-      };
-
-      const historyKey = 'ocr_person_history';
-      let history = JSON.parse(localStorage.getItem(historyKey) || '[]');
-      history = history.filter(item => item.name !== name);
-      history.unshift(record);
-      localStorage.setItem(historyKey, JSON.stringify(history));
-
-      if (showMsg) showToast(`"${name}" এর তথ্য হিস্ট্রিতে সংরক্ষিত হয়েছে`);
     }
 
     function injectCodeToModule() {
@@ -1021,11 +869,10 @@
       }
 
       const userInstruction = document.getElementById('userTextInput').value;
-      let targetModuleIndex = 2; 
-
+      let targetModuleIndex = 2;
       const match = userInstruction.match(/মডিউল\s*[-:]?\s*([১-৬1-6])/);
       if (match) {
-        const digitMap = { '১':1, '২':2, '৩':3, '৪':4, '৫':5, '৬':6, '1':1, '2':2, '3':3, '4':4, '5':5, '6':6 };
+        const digitMap = { '১': 1, '২': 2, '৩': 3, '৪': 4, '৫': 5, '৬': 6, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6 };
         targetModuleIndex = digitMap[match[1]] || 2;
       }
 
@@ -1044,20 +891,10 @@
         return;
       }
 
-      let htmlContent = convertMarkdownToHtmlTables(outputText);
-
-      const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
-            "xmlns:w='urn:schemas-microsoft-com:office:word' "+
-            "xmlns='http://www.w3.org/TR/REC-html40'>"+
-            "<head><meta charset='utf-8'><title>UDC Document</title>"+
-            "<style>body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; line-height: 1.6; } "+
-            "table { border-collapse: collapse; width: 100%; margin: 15px 0; } "+
-            "th, td { border: 1px solid #333; padding: 8px 12px; text-align: left; } "+
-            "th { background-color: #f2f2f2; font-weight: bold; }</style>"+
-            "</head><body>";
+      const htmlContent = convertMarkdownToHtmlTables(outputText);
+      const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>UDC Document</title><style>body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; line-height: 1.6; } table { border-collapse: collapse; width: 100%; margin: 15px 0; } th, td { border: 1px solid #333; padding: 8px 12px; text-align: left; } th { background-color: #f2f2f2; font-weight: bold; }</style></head><body>";
       const footer = "</body></html>";
       const sourceHTML = header + htmlContent + footer;
-
       const blob = new Blob(['\ufeff', sourceHTML], { type: 'application/msword' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -1067,7 +904,6 @@
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      
       showToast("MS Word ফাইল সফলভাবে ডাউনলোড হয়েছে!");
     }
 
@@ -1075,17 +911,14 @@
       const lines = text.split('\n');
       let html = '';
       let inTable = false;
-
       lines.forEach(line => {
-        let trimmed = line.trim();
+        const trimmed = line.trim();
         if (trimmed.startsWith('|') && trimmed.endsWith('|')) {
           if (trimmed.replace(/[\s\-\|]/g, '') === '') return;
-          
-          let cells = trimmed.split('|').slice(1, -1).map(c => c.trim());
+          const cells = trimmed.split('|').slice(1, -1).map(c => c.trim());
           if (!inTable) {
             inTable = true;
-            html += '<table border="1">';
-            html += '<tr>' + cells.map(c => `<th>${c}</th>`).join('') + '</tr>';
+            html += '<table border="1"><tr>' + cells.map(c => `<th>${c}</th>`).join('') + '</tr>';
           } else {
             html += '<tr>' + cells.map(c => `<td>${c}</td>`).join('') + '</tr>';
           }
@@ -1094,12 +927,9 @@
             html += '</table>';
             inTable = false;
           }
-          if (trimmed.length > 0) {
-            html += `<p>${trimmed}</p>`;
-          }
+          if (trimmed.length > 0) html += `<p>${trimmed}</p>`;
         }
       });
-
       if (inTable) html += '</table>';
       return html || `<p>${text}</p>`;
     }
@@ -1112,29 +942,26 @@
       }
 
       function extractValue(keywords) {
-        for (let kw of keywords) {
+        for (const kw of keywords) {
           const regex = new RegExp(`${kw}\s*[:\-]\s*(.*)`, 'i');
           const match = rawText.match(regex);
-          if (match && match[1]) {
-            return match[1].trim().replace(/^[:\-\s]+/, '');
-          }
+          if (match && match[1]) return match[1].trim().replace(/^[:\-\s]+/, '');
         }
         return '';
       }
 
-      document.getElementById('ff_name_bn').value = extractValue(['নাম \\(বাংলা\\)', 'নাম']);
-      document.getElementById('ff_name_en').value = extractValue(['নাম \\(ইংরেজি\\)', 'Name']).toUpperCase();
-      document.getElementById('ff_father_bn').value = extractValue(['পিতা\/স্বামীর নাম \\(বাংলা\\)', 'পিতার নাম \\(বাংলা\\)']);
-      document.getElementById('ff_father_en').value = extractValue(['পিতা\/স্বামীর নাম \\(ইংরেজি\\)', 'Father']).toUpperCase();
-      document.getElementById('ff_mother_bn').value = extractValue(['মাতা \\(বাংলা\\)', 'মাতার নাম \\(বাংলা\\)', 'মাতা']);
-      document.getElementById('ff_mother_en').value = extractValue(['মাতা \\(ইংরেজি\\)', 'Mother']).toUpperCase();
-      document.getElementById('ff_id_date').value = extractValue(['জন্ম তারিখ\/NID\/BRN', 'জন্ম তারিখ', 'NID', 'BRN']);
-      document.getElementById('ff_village_bn').value = extractValue(['গ্রাম \\(বাংলা\\)']);
-      document.getElementById('ff_village_en').value = extractValue(['গ্রাম \\(ইংরেজি\\)']).toUpperCase();
-      document.getElementById('ff_post_upazila_bn').value = extractValue(['ডাকঘর ও উপজেলা \\(বাংলা\\)']);
-      document.getElementById('ff_post_upazila_en').value = extractValue(['ডাকঘর ও উপজেলা \\(ইংরেজি\\)']).toUpperCase();
+      document.getElementById('ff_name_bn').value = extractValue(['নাম (বাংলা)', 'নাম']);
+      document.getElementById('ff_name_en').value = extractValue(['নাম (ইংরেজি)', 'Name']).toUpperCase();
+      document.getElementById('ff_father_bn').value = extractValue(['পিতা/স্বামীর নাম (বাংলা)', 'পিতার নাম (বাংলা)']);
+      document.getElementById('ff_father_en').value = extractValue(['পিতা/স্বামীর নাম (ইংরেজি)', 'Father']).toUpperCase();
+      document.getElementById('ff_mother_bn').value = extractValue(['মাতা (বাংলা)', 'মাতার নাম (বাংলা)', 'মাতা']);
+      document.getElementById('ff_mother_en').value = extractValue(['মাতা (ইংরেজি)', 'Mother']).toUpperCase();
+      document.getElementById('ff_id_date').value = extractValue(['জন্ম তারিখ/NID/BRN', 'জন্ম তারিখ', 'NID', 'BRN']);
+      document.getElementById('ff_village_bn').value = extractValue(['গ্রাম (বাংলা)']);
+      document.getElementById('ff_village_en').value = extractValue(['গ্রাম (ইংরেজি)']).toUpperCase();
+      document.getElementById('ff_post_upazila_bn').value = extractValue(['ডাকঘর ও উপজেলা (বাংলা)']);
+      document.getElementById('ff_post_upazila_en').value = extractValue(['ডাকঘর ও উপজেলা (ইংরেজি)']).toUpperCase();
       document.getElementById('ff_notes').value = rawText.includes('মিল ও গরমিল বিশ্লেষণ') ? rawText.split('মিল ও গরমিল বিশ্লেষণ:')[1] || '' : '';
-
       showToast("ফরম ফিল্ড অটো-ফিল সম্পন্ন হয়েছে");
     }
 
@@ -1160,30 +987,113 @@
 
     function copyAllFormData() {
       const values = [
-        ['ff_name_bn','নাম (বাংলা)'],
-        ['ff_name_en','নাম (ইংরেজি)'],
-        ['ff_father_bn','পিতা/স্বামীর নাম (বাংলা)'],
-        ['ff_father_en','পিতা/স্বামীর নাম (ইংরেজি)'],
-        ['ff_mother_bn','মাতা (বাংলা)'],
-        ['ff_mother_en','মাতা (ইংরেজি)'],
-        ['ff_id_date','জন্ম তারিখ / NID / BRN'],
-        ['ff_village_bn','গ্রাম (বাংলা)'],
-        ['ff_village_en','গ্রাম (ইংরেজি)'],
-        ['ff_post_upazila_bn','ডাকঘর ও উপজেলা (বাংলা)'],
-        ['ff_post_upazila_en','ডাকঘর ও উপজেলা (ইংরেজি)'],
-        ['ff_notes','অন্যান্য নোট']
+        ['ff_name_bn', 'নাম (বাংলা)'],
+        ['ff_name_en', 'নাম (ইংরেজি)'],
+        ['ff_father_bn', 'পিতা/স্বামীর নাম (বাংলা)'],
+        ['ff_father_en', 'পিতা/স্বামীর নাম (ইংরেজি)'],
+        ['ff_mother_bn', 'মাতা (বাংলা)'],
+        ['ff_mother_en', 'মাতা (ইংরেজি)'],
+        ['ff_id_date', 'জন্ম তারিখ / NID / BRN'],
+        ['ff_village_bn', 'গ্রাম (বাংলা)'],
+        ['ff_village_en', 'গ্রাম (ইংরেজি)'],
+        ['ff_post_upazila_bn', 'ডাকঘর ও উপজেলা (বাংলা)'],
+        ['ff_post_upazila_en', 'ডাকঘর ও উপজেলা (ইংরেজি)'],
+        ['ff_notes', 'অন্যান্য নোট']
       ];
-
       const output = values.map(([id, label]) => `${label}: ${document.getElementById(id).value || ''}`).join('\n');
       navigator.clipboard.writeText(output);
       showToast("সব ফিল্ডের ডেটা কপি হয়েছে");
     }
 
     function clearFormFields() {
-      ['ff_name_bn','ff_name_en','ff_father_bn','ff_father_en','ff_mother_bn','ff_mother_en','ff_id_date','ff_village_bn','ff_village_en','ff_post_upazila_bn','ff_post_upazila_en','ff_notes'].forEach(id => {
+      ['ff_name_bn', 'ff_name_en', 'ff_father_bn', 'ff_father_en', 'ff_mother_bn', 'ff_mother_en', 'ff_id_date', 'ff_village_bn', 'ff_village_en', 'ff_post_upazila_bn', 'ff_post_upazila_en', 'ff_notes'].forEach(id => {
         document.getElementById(id).value = '';
       });
       showToast("ফরম ফিল্ড রিসেট হয়েছে");
+    }
+
+    function saveCurrentRecord(showMsg = true) {
+      const name = document.getElementById('ff_name_bn').value.trim();
+      if (!name) {
+        if (showMsg) showToast("সংরক্ষণ করার মতো নাম পাওয়া যায়নি", true);
+        return;
+      }
+
+      const record = {
+        name: name,
+        name_en: document.getElementById('ff_name_en').value,
+        father_bn: document.getElementById('ff_father_bn').value,
+        father_en: document.getElementById('ff_father_en').value,
+        mother_bn: document.getElementById('ff_mother_bn').value,
+        mother_en: document.getElementById('ff_mother_en').value,
+        dob: document.getElementById('ff_id_date').value,
+        nid: document.getElementById('ff_id_date').value,
+        brn: document.getElementById('ff_id_date').value,
+        village_bn: document.getElementById('ff_village_bn').value,
+        village_en: document.getElementById('ff_village_en').value,
+        misc: document.getElementById('ff_notes').value,
+        timestamp: new Date().toLocaleString('bn-BD')
+      };
+
+      let history = JSON.parse(localStorage.getItem('ocr_person_history') || '[]');
+      history = history.filter(item => item.name !== name);
+      history.unshift(record);
+      localStorage.setItem('ocr_person_history', JSON.stringify(history));
+      renderHistoryList();
+      if (showMsg) showToast(`"${name}" এর তথ্য হিস্ট্রিতে সংরক্ষিত হয়েছে`);
+    }
+
+    function renderHistoryList() {
+      const historyListContainer = document.getElementById('historyList');
+      if (!historyListContainer) return;
+
+      const history = JSON.parse(localStorage.getItem('ocr_person_history') || '[]');
+      if (history.length === 0) {
+        historyListContainer.innerHTML = `<p class="text-slate-500 italic text-center py-4">কোনো হিস্ট্রি সংরক্ষিত নেই</p>`;
+        return;
+      }
+
+      let html = '';
+      history.forEach((item) => {
+        html += `
+          <div onclick="loadRecordFromHistory('${item.name}')" class="flex justify-between items-center bg-slate-950/80 hover:bg-slate-800 p-2.5 rounded-xl border border-slate-800 cursor-pointer transition-all">
+            <div>
+              <p class="font-bold text-slate-200">${item.name}</p>
+              <p class="text-[10px] text-slate-400">NID/BRN: ${item.nid || item.brn || 'প্রযোজ্য নয়'} | ${item.timestamp}</p>
+            </div>
+            <i class="fa-solid fa-arrow-right text-brand-500 text-xs"></i>
+          </div>
+        `;
+      });
+      historyListContainer.innerHTML = html;
+    }
+
+    function loadRecordFromHistory(name) {
+      const history = JSON.parse(localStorage.getItem('ocr_person_history') || '[]');
+      const record = history.find(item => item.name === name);
+      if (!record) return;
+
+      document.getElementById('ff_name_bn').value = record.name || '';
+      document.getElementById('ff_name_en').value = record.name_en || '';
+      document.getElementById('ff_father_bn').value = record.father_bn || '';
+      document.getElementById('ff_father_en').value = record.father_en || '';
+      document.getElementById('ff_mother_bn').value = record.mother_bn || '';
+      document.getElementById('ff_mother_en').value = record.mother_en || '';
+      document.getElementById('ff_id_date').value = record.dob || record.nid || record.brn || '';
+      document.getElementById('ff_village_bn').value = record.village_bn || '';
+      document.getElementById('ff_village_en').value = record.village_en || '';
+      document.getElementById('ff_notes').value = record.misc || '';
+      showToast(`"${name}" এর তথ্য সফলভাবে লোড করা হয়েছে`);
+    }
+
+    function clearHistory() {
+      const historyListContainer = document.getElementById('historyList');
+      if (!historyListContainer) return;
+      if (confirm("আপনি কি সমস্ত হিস্ট্রি মুছে ফেলতে চান?")) {
+        localStorage.removeItem('ocr_person_history');
+        renderHistoryList();
+        showToast("হিস্ট্রি মুছে ফেলা হয়েছে");
+      }
     }
 
     function updateCharCount() {
@@ -1200,7 +1110,6 @@
 
       msg.innerText = message;
       icon.className = isError ? "fa-solid fa-circle-exclamation text-red-400" : "fa-solid fa-circle-check text-brand-500";
-
       toast.classList.remove('hidden');
       setTimeout(() => { toast.classList.add('hidden'); }, 3500);
     }
