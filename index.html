@@ -30,7 +30,6 @@
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col antialiased selection:bg-brand-500 selection:text-white">
 
-  <!-- Top Navigation Bar -->
   <header class="sticky top-0 z-40 backdrop-blur-md bg-slate-900/90 border-b border-slate-800/80 px-4 lg:px-8 py-3.5 flex flex-wrap justify-between items-center shadow-2xl gap-3">
     <div class="flex items-center space-x-3">
       <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-teal-400 flex items-center justify-center shadow-lg shadow-brand-500/20">
@@ -44,7 +43,6 @@
       </div>
     </div>
 
-    <!-- Page Switch Navigation Links -->
     <nav class="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs font-semibold">
       <a href="index.html" class="px-3 py-1.5 rounded-lg bg-brand-600 text-white shadow">ইউনিয়ন স্মার্ট সেবা</a>
       <a href="page2.html" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all">Smart Edu Academy</a>
@@ -57,7 +55,7 @@
         <span class="w-1.5 h-1.5 rounded-full bg-red-400 mr-1.5 animate-pulse"></span> এপিআই কি অনুপস্থিত
       </span>
 
-      <button onclick="openSettingsModal()" class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 px-3.5 py-2 rounded-xl text-xs font-semibold border border-slate-700/60 transition-all duration-200">
+      <button onclick="openSettingsModal()" class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 px-3.5 py-2 rounded-xl text-xs font-semibold border border-slate-700 transition-all">
         <i class="fa-solid fa-gear text-brand-500"></i>
         <span>সেটিংস</span>
       </button>
@@ -98,30 +96,21 @@
           <span id="charCounter" class="text-[11px] text-slate-500">০ অক্ষর</span>
         </div>
 
-        <textarea id="userTextInput" rows="4" 
-          oninput="updateCharCount()"
-          class="w-full bg-slate-950/80 border border-slate-800 rounded-xl p-4 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500 transition-all duration-200 resize-y"
-          placeholder="নাগরিকের নাম, বিষয় এবং আবেদনপত্র তৈরির মূল কারণ সংক্ষেপে লিখুন..."></textarea>
+        <textarea id="userTextInput" rows="4" oninput="updateCharCount()" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl p-4 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500" placeholder="নাগরিকের নাম, বিষয় এবং আবেদনপত্র তৈরির মূল কারণ সংক্ষেপে লিখুন..."></textarea>
       </div>
 
-      <!-- Module 5 Single Image Upload Container -->
       <div id="ocrUploadContainer" class="hidden space-y-3">
         <label class="text-sm font-semibold text-slate-300 flex items-center gap-2">
           <i class="fa-solid fa-image text-brand-500"></i> <span>নথি/ফরম বা ফাইলের ছবি ড্রাগ করুন অথবা সিলেক্ট করুন:</span>
         </label>
         
-        <div id="dropZone" 
-          ondragover="handleDragOver(event)" 
-          ondragleave="handleDragLeave(event)" 
-          ondrop="handleFileDrop(event)"
-          onclick="document.getElementById('imageFileInput').click()"
-          class="relative border-2 border-dashed border-slate-700 hover:border-brand-500/60 rounded-xl p-6 text-center bg-slate-950/40 hover:bg-slate-950/70 transition-all cursor-pointer group">
+        <div id="dropZone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleFileDrop(event)" onclick="document.getElementById('imageFileInput').click()" class="relative border-2 border-dashed border-slate-700 hover:border-brand-500/60 rounded-xl p-6 text-center bg-slate-950/40 hover:bg-slate-950/70 transition-all cursor-pointer group">
           
           <input type="file" id="imageFileInput" accept="image/*" class="hidden" onchange="handleImageSelected(event)">
           
           <div id="uploadPlaceholder" class="space-y-2">
             <i class="fa-solid fa-cloud-arrow-up text-3xl text-slate-500 group-hover:text-brand-500 transition-colors"></i>
-            <p class="text-xs text-slate-400 font-medium">কম্পিউটার বা মোবাইল থেকে ছবি এখানে ড্রাগ এন্ড ড্রপ করুন অথবা ট্যাপ করুন</p>
+            <p class="text-xs text-slate-400 font-medium">কম্পিউটার বা মোবাইল থেকে ছবি এখানে ড্রাগ এন্ড ড্রপ করুন</p>
             <p class="text-[10px] text-slate-500">সমর্থিত ফরম্যাট: JPG, PNG, WEBP</p>
           </div>
 
@@ -137,7 +126,6 @@
         </div>
       </div>
 
-      <!-- Module 4 Multi-Box Drag & Drop Upload Container -->
       <div id="ocrMultiUploadContainer" class="hidden space-y-3">
         <label class="text-sm font-semibold text-slate-300 flex items-center gap-2">
           <i class="fa-solid fa-images text-brand-500"></i>
@@ -145,13 +133,7 @@
         </label>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <!-- Box 1 -->
-          <div id="dropZone1" 
-            ondragover="handleMultiDragOver(event, 1)" 
-            ondragleave="handleMultiDragLeave(event, 1)" 
-            ondrop="handleMultiFileDrop(event, 1)"
-            onclick="triggerFileInput(1)"
-            class="relative border-2 border-dashed border-slate-700 hover:border-brand-500/60 rounded-xl p-3 text-center bg-slate-950/40 hover:bg-slate-950/70 transition-all cursor-pointer group flex flex-col justify-between min-h-[150px]">
+          <div id="dropZone1" ondragover="handleMultiDragOver(event, 1)" ondragleave="handleMultiDragLeave(event, 1)" ondrop="handleMultiFileDrop(event, 1)" onclick="triggerFileInput(1)" class="relative border-2 border-dashed border-slate-700 hover:border-brand-500/60 rounded-xl p-3 text-center bg-slate-950/40 hover:bg-slate-950/70 transition-all cursor-pointer group flex flex-col justify-center min-h-[140px]">
             <input type="file" id="imageFileInput1" accept="image/*" multiple class="hidden" onchange="handleMultiImageSelected(event, 1)">
             <div class="space-y-1">
               <i class="fa-solid fa-id-card text-2xl text-slate-500 group-hover:text-brand-500 transition-colors"></i>
@@ -161,13 +143,7 @@
             <div id="fileList1" class="mt-2 space-y-1 text-left text-[11px] max-h-28 overflow-y-auto"></div>
           </div>
 
-          <!-- Box 2 -->
-          <div id="dropZone2" 
-            ondragover="handleMultiDragOver(event, 2)" 
-            ondragleave="handleMultiDragLeave(event, 2)" 
-            ondrop="handleMultiFileDrop(event, 2)"
-            onclick="triggerFileInput(2)"
-            class="relative border-2 border-dashed border-slate-700 hover:border-brand-500/60 rounded-xl p-3 text-center bg-slate-950/40 hover:bg-slate-950/70 transition-all cursor-pointer group flex flex-col justify-between min-h-[150px]">
+          <div id="dropZone2" ondragover="handleMultiDragOver(event, 2)" ondragleave="handleMultiDragLeave(event, 2)" ondrop="handleMultiFileDrop(event, 2)" onclick="triggerFileInput(2)" class="relative border-2 border-dashed border-slate-700 hover:border-brand-500/60 rounded-xl p-3 text-center bg-slate-950/40 hover:bg-slate-950/70 transition-all cursor-pointer group flex flex-col justify-center min-h-[140px]">
             <input type="file" id="imageFileInput2" accept="image/*" multiple class="hidden" onchange="handleMultiImageSelected(event, 2)">
             <div class="space-y-1">
               <i class="fa-solid fa-user-shield text-2xl text-slate-500 group-hover:text-brand-500 transition-colors"></i>
@@ -177,13 +153,7 @@
             <div id="fileList2" class="mt-2 space-y-1 text-left text-[11px] max-h-28 overflow-y-auto"></div>
           </div>
 
-          <!-- Box 3 -->
-          <div id="dropZone3" 
-            ondragover="handleMultiDragOver(event, 3)" 
-            ondragleave="handleMultiDragLeave(event, 3)" 
-            ondrop="handleMultiFileDrop(event, 3)"
-            onclick="triggerFileInput(3)"
-            class="relative border-2 border-dashed border-slate-700 hover:border-brand-500/60 rounded-xl p-3 text-center bg-slate-950/40 hover:bg-slate-950/70 transition-all cursor-pointer group flex flex-col justify-between min-h-[150px]">
+          <div id="dropZone3" ondragover="handleMultiDragOver(event, 3)" ondragleave="handleMultiDragLeave(event, 3)" ondrop="handleMultiFileDrop(event, 3)" onclick="triggerFileInput(3)" class="relative border-2 border-dashed border-slate-700 hover:border-brand-500/60 rounded-xl p-3 text-center bg-slate-950/40 hover:bg-slate-950/70 transition-all cursor-pointer group flex flex-col justify-center min-h-[140px]">
             <input type="file" id="imageFileInput3" accept="image/*" multiple class="hidden" onchange="handleMultiImageSelected(event, 3)">
             <div class="space-y-1">
               <i class="fa-solid fa-users text-2xl text-slate-500 group-hover:text-brand-500 transition-colors"></i>
@@ -195,8 +165,7 @@
         </div>
       </div>
 
-      <button id="generateBtn" onclick="executeAIProcess()" 
-        class="w-full bg-gradient-to-r from-brand-600 to-teal-600 hover:from-brand-500 hover:to-teal-500 active:scale-[0.99] text-white font-bold py-3.5 px-6 rounded-xl shadow-lg shadow-brand-500/20 flex items-center justify-center gap-2 text-sm transition-all duration-200">
+      <button id="generateBtn" onclick="executeAIProcess()" class="w-full bg-gradient-to-r from-brand-600 to-teal-600 hover:from-brand-500 hover:to-teal-500 active:scale-[0.99] text-white font-bold py-3.5 px-6 rounded-xl shadow-lg shadow-brand-500/20 focus:outline-none focus:ring-2 focus:ring-brand-500/50 transition-all">
         <i class="fa-solid fa-wand-magic-sparkles"></i>
         <span>দরখাস্ত তৈরি করুন (Generate)</span>
       </button>
@@ -208,16 +177,16 @@
             <span>আউটপুট ফলাফল (Raw Text / Table):</span>
           </h3>
           <div class="flex items-center gap-2">
-            <button id="module6InjectBtn" onclick="injectCodeToModule()" class="hidden flex items-center gap-1.5 bg-amber-600/20 hover:bg-amber-600/30 text-amber-400 border border-amber-500/30 text-xs font-semibold px-3 py-1.5 rounded-lg transition-all">
+            <button id="module6InjectBtn" onclick="injectCodeToModule()" class="hidden flex items-center gap-1.5 bg-amber-600/20 hover:bg-amber-600/30 text-amber-400 border border-amber-500/30 text-xs font-semibold px-3 py-1.5 rounded-lg">
               <i class="fa-solid fa-code-merge text-amber-400"></i> <span>মডিউলে যুক্ত করুন</span>
             </button>
-            <button onclick="downloadAsWordDoc()" class="flex items-center gap-1.5 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 border border-blue-500/30 text-xs font-semibold px-3 py-1.5 rounded-lg transition-all">
+            <button onclick="downloadAsWordDoc()" class="flex items-center gap-1.5 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 border border-blue-500/30 text-xs font-semibold px-3 py-1.5 rounded-lg">
               <i class="fa-solid fa-file-word text-blue-400"></i> <span>MS Word ডাউনলোড</span>
             </button>
-            <button onclick="autoPopulateFormFields()" id="autoPopulateBtn" class="hidden flex items-center gap-1.5 bg-brand-600/20 hover:bg-brand-600/30 text-brand-400 border border-brand-500/30 text-xs font-semibold px-3 py-1.5 rounded-lg transition-all">
+            <button onclick="autoPopulateFormFields()" id="autoPopulateBtn" class="hidden flex items-center gap-1.5 bg-brand-600/20 hover:bg-brand-600/30 text-brand-400 border border-brand-500/30 text-xs font-semibold px-3 py-1.5 rounded-lg">
               <i class="fa-solid fa-bolt text-brand-400"></i> <span>অটো-ফিল ফরম</span>
             </button>
-            <button onclick="copyOutputText()" class="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-700/60 transition-all">
+            <button onclick="copyOutputText()" class="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-700">
               <i class="fa-regular fa-copy text-brand-500"></i> <span>কপি করুন</span>
             </button>
           </div>
@@ -229,9 +198,7 @@
             <p class="text-xs font-medium text-brand-400 animate-pulse">প্রসেস করছে...</p>
           </div>
 
-          <div id="outputDisplayArea" class="text-slate-400 italic">
-            এখানে আপনার প্রসেসকৃত ফলাফল বা এক্সট্রাক্ট হওয়া ডেটা দেখা যাবে...
-          </div>
+          <div id="outputDisplayArea" class="text-slate-400 italic">এখানে আপনার প্রসেসকৃত ফলাফল বা এক্সট্রাক্ট হওয়া ডেটা দেখা যাবে...</div>
         </div>
       </div>
 
@@ -243,15 +210,15 @@
             </div>
             <div>
               <h3 class="text-sm font-bold text-slate-200">স্মার্ট ড্যাশবোর্ড ফরম ফিল্ডার (Interactive Output Editor)</h3>
-              <p class="text-[11px] text-slate-400">এক্সট্রাক্ট করা ডেটা এক ক্লিকে আলাদা বক্সে ফিল করুন বা সরাসরি টাইপিং করে কপি করুন।</p>
+              <p class="text-[11px] text-slate-400">এক্সট্রাক্ট করা ডেটা এক ক্লিকে আলাদা বক্সে ফিল করুন বা সংশোধন করুন।</p>
             </div>
           </div>
 
           <div class="flex items-center gap-2">
-            <button onclick="autoPopulateFormFields()" class="bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold px-3 py-1.5 rounded-lg shadow-md shadow-brand-500/20 flex items-center gap-1.5 transition-all">
+            <button onclick="autoPopulateFormFields()" class="bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold px-3 py-1.5 rounded-lg shadow-md shadow-brand-500/20 flex items-center gap-1.5">
               <i class="fa-solid fa-bolt"></i> অটো-ফিল
             </button>
-            <button onclick="copyAllFormData()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-700 flex items-center gap-1.5 transition-all">
+            <button onclick="copyAllFormData()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-700 flex items-center gap-1.5">
               <i class="fa-solid fa-copy text-brand-500"></i> সব ফিল্ড কপি
             </button>
             <button onclick="clearFormFields()" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 text-xs font-semibold px-2.5 py-1.5 rounded-lg transition-all">
@@ -420,9 +387,7 @@
         <div>
           <label class="block text-xs font-medium text-slate-400 mb-1.5">OpenRouter API Key প্রদান করুন:</label>
           <div class="relative">
-            <input type="password" id="apiKeyInputField" 
-              placeholder="sk-or-v1-..." 
-              class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500">
+            <input type="password" id="apiKeyInputField" placeholder="sk-or-v1-..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500">
             <button onclick="toggleKeyVisibility()" class="absolute right-3 top-2.5 text-slate-500 hover:text-slate-300 text-xs">
               <i id="eyeIcon" class="fa-solid fa-eye"></i>
             </button>
@@ -431,7 +396,7 @@
 
         <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 space-y-1.5">
           <p class="text-[11px] text-slate-400 leading-relaxed">
-            🔒 <strong class="text-slate-200">নিরাপত্তা নিশ্চয়তা:</strong> আপনার এপিআই কি-টি ব্রাউজারের <code class="text-brand-400">LocalStorage</code>-এ নিরাপদে থাকবে।
+            🔒 <strong class="text-slate-200">নিরাপত্তা নিশ্চয়তা:</strong> আপনার এপিআই কি-টি ব্রাউজারের <code class="bg-slate-800 px-1 py-0.5 rounded text-brand-400">localStorage</code>-এ সংরক্ষিত হবে, যা শুধুমাত্র এই পেজে কাজ করবে।
           </p>
         </div>
       </div>
@@ -498,24 +463,24 @@
 
   <script>
     let activeTabId = 1;
-    let selectedImageBase64 = null; // Single file for Module 5
-    let module4Files = { 1: [], 2: [], 3: [] }; // Multi-files for Module 4 (3 boxes)
+    let selectedImageBase64 = null;
+    let module4Files = { 1: [], 2: [], 3: [] };
 
-    // Dynamic System Prompts per Module
     let systemPrompts = [
-      "আপনি UDC এআই সহকারী। নাগরিকের দেওয়া তথ্য অনুযায়ী চেয়ারম্যান বরাবরে নিখুঁত আনুষ্ঠানিক সরকারি দরখাস্ত তৈরি করুন।",
-      "আপনি প্রমিত বাংলা বিশেষজ্ঞ। প্রদানকৃত খসড়ার বানান ও ব্যাকরণ সরকারি প্রমিত মানদণ্ড অনুযায়ী সংশোধন করুন।",
-      "আপনি নাম ও ঠিকানা অনুবাদক। প্রদানকৃত বাংলা নাম ও ঠিকানা ALL CAPS ইংরেজি অনুবাদ করুন। বিশেষ নিয়ম: 'মোছা:' বা 'মোসা:' বা 'মোসাম্মৎ' থাকলে ইংরেজিতে অবশ্যই 'MST.' ব্যবহার করবেন ('MOCHA' লেখা সম্পূর্ণ নিষিদ্ধ)। যেমন: মোছা: আরমিনা আকতার -> MST. ARMINA AKTAR।",
+      "আপনি UDC এআই সহকারী। নাগরিকের দেওয়া তথ্য অনুযায়ী চেয়ারম্যান বরাবরে নিখুঁত আবেদনপত্র তৈরি করুন। ভাষা হবে সহজ, আনুষ্ঠানিক, সরকারি-স্টাইল, এবং প্রয়োজন অনুযায়ী ফরম্যাটেড।",
+      "আপনি প্রমিত বাংলা বিশেষজ্ঞ। প্রদানকৃত খসড়ার বানান, ব্যাকরণ, ভাষা ও ফরম্যাট ঠিক করে সরকারি-স্টাইলের সংশোধিত সংস্করণ দিন।",
+      "আপনি নাম ও ঠিকানা অনুবাদক। প্রদানকৃত বাংলা নাম ও ঠিকানা ALL CAPS ইংরেজি অনুবাদ করুন। উদাহরণ: মোঃ রফিকুল ইসলাম -> MD. ROFIQUL ISLAM",
       `আপনি একটি অত্যন্ত বিচক্ষণ স্মার্ট OCR এবং তথ্য যাচাইকারী এআই সহকারী। 
-আপলোডকৃত ৩টি ক্যাটাগরির (১. নিজ নথি, ২. পিতার নথি, ৩. মাতার/অন্যান্য নথি) প্রতিটি ছবি অত্যন্ত সূক্ষ্মভাবে স্ক্যান ও রিড করুন।
+আপলোডকৃত ৩টি ক্যাটাগরির (১. নিজ নথি, ২. পিতার নথি, ৩. মাতার/অন্যান্য নথি) প্রতিটি ছবির তথ্য বিশ্লেষণ করুন।
 
 আপনার প্রধান কাজ ২টি:
 ১. **ক্রস-ম্যাচিং ও অমিল/মিল বিশ্লেষণ:**
-   - ৩টি নথির মধ্যে নাম, পিতা/স্বামীর নাম, মাতার নাম, জন্ম তারিখ/NID ইত্যাদির বানান এবং তথ্য একটার সাথে আরেকটির সাথে মিল করে দেখুন।
-   - যেমন: জন্ম নিবন্ধন করার জন্য আবেদনের সময় নিজ নামের সাথে পিতা বা মাতার NID/সনদে থাকা নামের কোনো অমিল, বানান পার্থক্য বা গরমিল আছে কি না তা স্পষ্ট করে পয়েন্ট আকারে উল্লেখ করুন।
+   - ৩টি নথির মধ্যে নাম, পিতা/স্বামীর নাম, মাতার নাম, জন্ম তারিখ/NID ইত্যাদির মিল/অমিল বিশ্লেষণ করুন।
+   - inconsistency থাকলে তা উল্লেখ করুন।
 
 ২. **তথ্য এক্সট্রাকশন (অটো-ফিল ফরম্যাটের জন্য):**
-   বিশেষ অনুবাদ নিয়ম: বাংলা নামের সংক্ষিপ্ত রূপ 'মোছা:', 'মোসা:', বা 'মোসাম্মৎ' থাকলে ইংরেজিতে অবশ্যই 'MST.' ব্যবহার করবেন ('MOCHA' লেখা সম্পূর্ণ নিষিদ্ধ)।
+   - বিশেষ অনুবাদ নিয়ম: বাংলা নামের সংক্ষিপ্ত রূপ 'মোছা:', 'মোসা:', 'মোসাম্মৎ' ইত্যাদি ঠিকভাবে English form তৈরি করুন।
+   - মানসম্মত English text দিন।
 
 অবশ্যই নিচের ফরম্যাট হুবহু বজায় রেখে আউটপুট দিন:
 - মিল ও গরমিল বিশ্লেষণ: [সংক্ষেপে সকল নথির মধ্যে তথ্যের মিল/অমিল বিবরণ]
@@ -530,17 +495,15 @@
 - গ্রাম (ইংরেজি): ...
 - ডাকঘর ও উপজেলা (বাংলা): ...
 - ডাকঘর ও উপজেলা (ইংরেজি): ...`,
-      "আপনি ইউনিয়ন ডিজিটাল সেন্টার (UDC) স্মার্ট এআই সহকারী। ফাইল বা ছবিতে থাকা তথ্য OCR স্ক্যানিং করে সমাধান প্রদান করুন। যদি ব্যবহারকারী তথ্যগুলো টেবিল বা MS Word ফরম্যাটে চান, তবে একটি পরিষ্কার সুসংগঠিত Markdown Table (| কলাম ১ | কলাম ২ |) আকারে ডাটা প্রস্তুত করুন।",
-      "আপনি একজন দক্ষ ওয়েব ডেভেলপার ও ড্যাশবোর্ড কোডার। ব্যবহারকারীর চাহনি অনুযায়ী এইচটিএমএল/জাভাস্ক্রিপ্ট কোড তৈরি করে দিন এবং প্রয়োজনে অন্য মডিউল বা পেজে কীভাবে কোড ইনজেক্ট বা যুক্ত করতে হয় তার সঠিক স্ক্রিপ্ট প্রদান করুন।"
+      "আপনি ইউনিয়ন ডিজিটাল সেন্টার (UDC) স্মার্ট এআই সহকারী। ফাইল বা ছবিতে থাকা তথ্য থেকে ব্যবহারকারীকে সঠিক, বাস্তবসম্মত, সরকারি-স্টাইল উত্তর দিন।",
+      "আপনি একজন দক্ষ ওয়েব ডেভেলপার ও ড্যাশবোর্ড কোডার। ব্যবহারকারীর চাহিদা অনুযায়ী HTML, CSS, JavaScript code লিখুন, বেস্ট প্রাকটিস অনুযায়ী clean ও production-ready কোড দিন।"
     ];
 
-    // Initial Load
     document.addEventListener("DOMContentLoaded", () => {
       checkSavedApiKeyStatus();
       switchTab(1);
     });
 
-    // Dynamic Tab Switching
     function switchTab(index) {
       activeTabId = index;
       
@@ -555,11 +518,11 @@
 
       const moduleConfigs = [
         { label: "১. দরখাস্ত তৈরির বিবরণ প্রদান করুন:", placeholder: "নাগরিকের নাম, বিষয় এবং আবেদনপত্র তৈরির মূল কারণ সংক্ষেপে লিখুন...", btnText: "দরখাস্ত তৈরি করুন (Generate)" },
-        { label: "২. বানান ও ব্যাকরণ প্রুফরিডিং:", placeholder: "আপনার প্রস্তুত করা চিঠি বা প্রত্যয়নপত্রের খসড়াটি এখানে পেস্ট করুন...", btnText: "বানান শুদ্ধ করুন" },
-        { label: "৩. নাম ও ঠিকানা অনুবাদ:", placeholder: "বাংলা নাম ও স্থায়ী/বর্তমান ঠিকানা লিখুন (যেমন: মোঃ রফিকুল ইসলাম, গ্রাম: কমলপুর)...", btnText: "ইংরেজি ALL CAPS অনুবাদ করুন" },
-        { label: "৪. স্মার্ট OCR ও নথি মিলকরণ (Cross-Matching):", placeholder: "নথিগুলো যাচাই বা তুলনা করার জন্য অতিরিক্ত নির্দেশ থাকলে লিখুন (যেমন: জন্ম নিবন্ধনের সাথে পিতা/মাতার NID নাম ঠিক আছে কি না দেখুন)...", btnText: "OCR প্রসেস ও তথ্য যাচাই করুন" },
-        { label: "৫. ইউডি সি অ্যাসিস্ট্যান্ট হেল্প:", placeholder: "ছবি বা ফাইলের তথ্য সম্পর্কে নির্দেশনা দিন (যেমন: 'এই তথ্যগুলো দিয়ে একটি এমএস ওয়ার্ড টেবিল তৈরি করো')...", btnText: "উত্তর বা সমাধান নিন" },
-        { label: "৬. ওয়েব ও স্ক্রিপ্ট কোড হেল্পার:", placeholder: "আপনার ওয়েবসাইটের চাহিদা বা যে কোড তৈরি করতে চান তা লিখুন (যেমন: 'মডিউল-২ এ অটো-ক্যাপচা ডিলিট করার ফাংশন যুক্ত করো')...", btnText: "কোড তৈরি করুন (Generate Code)" }
+        { label: "২. বানান ও ব্যাকরণ প্রুফরিডিং:", placeholder: "আপনার প্রস্তুত করা চিঠি বা প্রতিক্রিয়া লিখুন, বানান ও ভাষা ঠিক করে দিন...", btnText: "প্রুফরিড করুন (Proofread)" },
+        { label: "৩. নাম ও ঠিকানা অনুবাদ:", placeholder: "বাংলা নাম ও স্থায়ী/বর্তমান ঠিকানা লিখুন (এখানে অনুবাদ করা হবে)...", btnText: "অনুবাদ করুন (Translate)" },
+        { label: "৪. স্মার্ট OCR ও নথি মিলকরণ (Cross-Matching):", placeholder: "নথিগুলো যাচাই বা তুলনা করার জন্য তথ্য লিখুন বা ছবি আপলোড করুন...", btnText: "নথি মিলকরণ ও বিশ্লেষণ করুন" },
+        { label: "৫. ইউডি সি অ্যাসিস্ট্যান্ট হেল্প:", placeholder: "ছবি বা ফাইলের তথ্য সম্পর্কে নথি/প্রশ্ন লিখুন...", btnText: "অ্যাসিস্ট্যান্ট রেসপন্স (Assist)" },
+        { label: "৬. ওয়েব ও স্ক্রিপ্ট কোড হেল্পার:", placeholder: "আপনার ওয়েবসাইটের চাহিদা বা যে কনটেন্ট/কোড প্রয়োজন, লিখুন...", btnText: "কোড বানান/সাহায্য দিন" }
       ];
 
       const currentConfig = moduleConfigs[index - 1];
@@ -826,16 +789,15 @@
           });
         }
         if (!textInput) {
-          userMessageContent.push({ type: "text", text: "এই সকল আপলোডকৃত নথি বিশ্লেষণ করে নাম, পিতা/মাতার নামের বানান ক্রস-ম্যাচ/তুলনা করুন এবং নির্ধারিত আউটপুট ফরম্যাটে বিস্তারিত রিপোর্ট দিন।" });
+          userMessageContent.push({ type: "text", text: "এই সকল আপলোডকৃত নথি বিশ্লেষণ করে নাম, পিতা/মাতার নামের মিল/অমিল ও ডেটা এক্সট্রাক্ট করুন।" });
         }
-      } 
-      else if (activeTabId === 5 && selectedImageBase64) {
+      } else if (activeTabId === 5 && selectedImageBase64) {
         userMessageContent.push({
           type: "image_url",
           image_url: { url: selectedImageBase64 }
         });
         if (!textInput) {
-          userMessageContent.push({ type: "text", text: "এই ছবিটি বিশ্লেষণ ও OCR স্ক্যান করে ব্যবহারকারীর প্রয়োজন উপযোগী নিখুঁত উত্তর দিন।" });
+          userMessageContent.push({ type: "text", text: "এই ছবিটি বিশ্লেষণ ও OCR স্ক্যান করে ব্যবহারকারীর প্রয়োজন অনুযায়ী উত্তর দিন।" });
         }
       }
 
@@ -889,7 +851,7 @@
       }
 
       const userInstruction = document.getElementById('userTextInput').value;
-      let targetModuleIndex = 2; 
+      let targetModuleIndex = 2;
 
       const match = userInstruction.match(/মডিউল\s*[-:]?\s*([১-৬1-6])/);
       if (match) {
@@ -914,22 +876,19 @@
 
       let htmlContent = convertMarkdownToHtmlTables(outputText);
 
-      const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
-            "xmlns:w='urn:schemas-microsoft-com:office:word' "+
-            "xmlns='http://www.w3.org/TR/REC-html40'>"+
-            "<head><meta charset='utf-8'><title>UDC Document</title>"+
-            "<style>body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; line-height: 1.6; } "+
-            "table { border-collapse: collapse; width: 100%; margin: 15px 0; } "+
-            "th, td { border: 1px solid #333; padding: 8px 12px; text-align: left; } "+
-            "th { background-color: #f2f2f2; font-weight: bold; }</style>"+
+      const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
+            "xmlns:w='urn:schemas-microsoft-com:office:word' " +
+            "xmlns='http://www.w3.org/TR/REC-html40'>" +
+            "<head><meta charset='utf-8'><title>UDC Document</title>" +
+            "<style>body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; line-height: 1.6; } " +
+            "table { border-collapse: collapse; width: 100%; margin: 15px 0; } " +
+            "th, td { border: 1px solid #333; padding: 8px 12px; text-align: left; } " +
+            "th { background-color: #f2f2f2; font-weight: bold; }</style>" +
             "</head><body>";
       const footer = "</body></html>";
       const sourceHTML = header + htmlContent + footer;
 
-      const blob = new Blob(['\ufeff', sourceHTML], {
-        type: 'application/msword'
-      });
-      
+      const blob = new Blob(['\ufeff', sourceHTML], { type: 'application/msword' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -984,7 +943,7 @@
 
       function extractValue(keywords) {
         for (let kw of keywords) {
-          const regex = new RegExp(`${kw}\\s*[:\\-]\\s*(.*)`, 'i');
+          const regex = new RegExp(`${kw}\s*[:\-]\s*(.*)`, 'i');
           const match = rawText.match(regex);
           if (match && match[1]) {
             return match[1].trim().replace(/^[:\-\s]+/, '');
@@ -995,77 +954,73 @@
 
       document.getElementById('ff_name_bn').value = extractValue(['নাম \\(বাংলা\\)', 'নাম']);
       document.getElementById('ff_name_en').value = extractValue(['নাম \\(ইংরেজি\\)', 'Name']).toUpperCase();
-      document.getElementById('ff_father_bn').value = extractValue(['পিতা\\/স্বামীর নাম \\(বাংলা\\)', 'পিতার নাম \\(বাংলা\\)', 'পিতা']);
-      document.getElementById('ff_father_en').value = extractValue(['পিতা\\/স্বামীর নাম \\(ইংরেজি\\)', 'Father']).toUpperCase();
+      document.getElementById('ff_father_bn').value = extractValue(['পিতা\/স্বামীর নাম \\(বাংলা\\)', 'পিতার নাম \\(বাংলা\\)']);
+      document.getElementById('ff_father_en').value = extractValue(['পিতা\/স্বামীর নাম \\(ইংরেজি\\)', 'Father']).toUpperCase();
       document.getElementById('ff_mother_bn').value = extractValue(['মাতা \\(বাংলা\\)', 'মাতার নাম \\(বাংলা\\)', 'মাতা']);
       document.getElementById('ff_mother_en').value = extractValue(['মাতা \\(ইংরেজি\\)', 'Mother']).toUpperCase();
-      document.getElementById('ff_id_date').value = extractValue(['জন্ম তারিখ\\/NID\\/BRN', 'জন্ম তারিখ', 'NID', 'BRN']);
-      document.getElementById('ff_village_bn').value = extractValue(['গ্রাম \\(বাংলা\\)', 'গ্রাম']);
-      document.getElementById('ff_village_en').value = extractValue(['গ্রাম \\(ইংরেজি\\)', 'Village']).toUpperCase();
-      document.getElementById('ff_post_upazila_bn').value = extractValue(['ডাকঘর ও উপজেলা \\(বাংলা\\)', 'ডাকঘর']);
-      document.getElementById('ff_post_upazila_en').value = extractValue(['ডাকঘর ও উপজেলা \\(ইংরেজি\\)', 'Post Office']).toUpperCase();
+      document.getElementById('ff_id_date').value = extractValue(['জন্ম তারিখ\/NID\/BRN', 'জন্ম তারিখ', 'NID', 'BRN']);
+      document.getElementById('ff_village_bn').value = extractValue(['গ্রাম \\(বাংলা\\)']);
+      document.getElementById('ff_village_en').value = extractValue(['গ্রাম \\(ইংরেজি\\)']).toUpperCase();
+      document.getElementById('ff_post_upazila_bn').value = extractValue(['ডাকঘর ও উপজেলা \\(বাংলা\\)']);
+      document.getElementById('ff_post_upazila_en').value = extractValue(['ডাকঘর ও উপজেলা \\(ইংরেজি\\)']).toUpperCase();
+      document.getElementById('ff_notes').value = rawText.includes('মিল ও গরমিল বিশ্লেষণ') ? rawText.split('মিল ও গরমিল বিশ্লেষণ:')[1] || '' : '';
 
-      showToast("আউটপুট থেকে ফরম ফিল্ড সফলভাবে ফিল করা হয়েছে!");
+      showToast("ফরম ফিল্ড অটো-ফিল সম্পন্ন হয়েছে");
     }
 
-    function copySingleField(fieldId) {
-      const val = document.getElementById(fieldId).value;
-      if (!val) {
-        showToast("কপি করার মতো কোনো টেক্সট নেই", true);
+    function copySingleField(id) {
+      const field = document.getElementById(id);
+      if (!field || !field.value.trim()) {
+        showToast("কপি করার মতো ডেটা নেই", true);
         return;
       }
-      navigator.clipboard.writeText(val);
-      showToast("কপি করা হয়েছে");
-    }
-
-    function clearFormFields() {
-      const fieldIds = [
-        'ff_name_bn', 'ff_name_en', 'ff_father_bn', 'ff_father_en',
-        'ff_mother_bn', 'ff_mother_en', 'ff_id_date', 'ff_village_bn',
-        'ff_village_en', 'ff_post_upazila_bn', 'ff_post_upazila_en', 'ff_notes'
-      ];
-      fieldIds.forEach(id => document.getElementById(id).value = '');
-      showToast("ফরম ক্লিয়ার করা হয়েছে");
-    }
-
-    function copyAllFormData() {
-      const fieldData = [
-        `নাম (বাংলা): ${document.getElementById('ff_name_bn').value}`,
-        `নাম (ইংরেজি): ${document.getElementById('ff_name_en').value}`,
-        `পিতা/স্বামী (বাংলা): ${document.getElementById('ff_father_bn').value}`,
-        `পিতা/স্বামী (ইংরেজি): ${document.getElementById('ff_father_en').value}`,
-        `মাতা (বাংলা): ${document.getElementById('ff_mother_bn').value}`,
-        `মাতা (ইংরেজি): ${document.getElementById('ff_mother_en').value}`,
-        `জন্ম তারিখ/NID/BRN: ${document.getElementById('ff_id_date').value}`,
-        `গ্রাম (বাংলা): ${document.getElementById('ff_village_bn').value}`,
-        `গ্রাম (ইংরেজি): ${document.getElementById('ff_village_en').value}`,
-        `ডাকঘর ও উপজেলা (বাংলা): ${document.getElementById('ff_post_upazila_bn').value}`,
-        `ডাকঘর ও উপজেলা (ইংরেজি): ${document.getElementById('ff_post_upazila_en').value}`,
-        `নোট: ${document.getElementById('ff_notes').value}`
-      ].filter(line => !line.endsWith(': ')).join('\n');
-
-      if (!fieldData) {
-        showToast("কপি করার মতো কোনো তথ্য নেই", true);
-        return;
-      }
-
-      navigator.clipboard.writeText(fieldData);
-      showToast("ফরমের সব তথ্য কপি করা হয়েছে");
-    }
-
-    function updateCharCount() {
-      const text = document.getElementById('userTextInput').value;
-      document.getElementById('charCounter').innerText = `${text.length} অক্ষর`;
+      navigator.clipboard.writeText(field.value);
+      showToast("ফিল্ডের ডেটা কপি হয়েছে");
     }
 
     function copyOutputText() {
-      const outputText = document.getElementById('outputDisplayArea').innerText;
-      if (!outputText || outputText.includes("এখানে আপনার প্রসেসকৃত ফলাফল")) {
-        showToast("কপি করার মতো ফলাফল নেই", true);
+      const output = document.getElementById('outputDisplayArea').innerText.trim();
+      if (!output || output.includes("এখানে আপনার প্রসেসকৃত ফলাফল")) {
+        showToast("কপি করার মতো আউটপুট নেই", true);
         return;
       }
-      navigator.clipboard.writeText(outputText);
-      showToast("কপি করা হয়েছে");
+      navigator.clipboard.writeText(output);
+      showToast("আউটপুট কপি হয়েছে");
+    }
+
+    function copyAllFormData() {
+      const values = [
+        ['ff_name_bn','নাম (বাংলা)'],
+        ['ff_name_en','নাম (ইংরেজি)'],
+        ['ff_father_bn','পিতা/স্বামীর নাম (বাংলা)'],
+        ['ff_father_en','পিতা/স্বামীর নাম (ইংরেজি)'],
+        ['ff_mother_bn','মাতা (বাংলা)'],
+        ['ff_mother_en','মাতা (ইংরেজি)'],
+        ['ff_id_date','জন্ম তারিখ / NID / BRN'],
+        ['ff_village_bn','গ্রাম (বাংলা)'],
+        ['ff_village_en','গ্রাম (ইংরেজি)'],
+        ['ff_post_upazila_bn','ডাকঘর ও উপজেলা (বাংলা)'],
+        ['ff_post_upazila_en','ডাকঘর ও উপজেলা (ইংরেজি)'],
+        ['ff_notes','অন্যান্য নোট']
+      ];
+
+      const output = values.map(([id, label]) => `${label}: ${document.getElementById(id).value || ''}`).join('\n');
+      navigator.clipboard.writeText(output);
+      showToast("সব ফিল্ডের ডেটা কপি হয়েছে");
+    }
+
+    function clearFormFields() {
+      ['ff_name_bn','ff_name_en','ff_father_bn','ff_father_en','ff_mother_bn','ff_mother_en','ff_id_date','ff_village_bn','ff_village_en','ff_post_upazila_bn','ff_post_upazila_en','ff_notes'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+      showToast("ফরম ফিল্ড রিসেট হয়েছে");
+    }
+
+    function updateCharCount() {
+      const input = document.getElementById('userTextInput').value;
+      const count = input.length;
+      const display = count === 0 ? '০ অক্ষর' : `${count.toLocaleString('bn-BD')} অক্ষর`;
+      document.getElementById('charCounter').innerText = display;
     }
 
     function showToast(message, isError = false) {
@@ -1077,7 +1032,7 @@
       icon.className = isError ? "fa-solid fa-circle-exclamation text-red-400" : "fa-solid fa-circle-check text-brand-500";
 
       toast.classList.remove('hidden');
-      setTimeout(() => { toast.classList.add('hidden'); }, 3000);
+      setTimeout(() => { toast.classList.add('hidden'); }, 3500);
     }
   </script>
 </body>
