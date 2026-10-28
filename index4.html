@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>স্মার্ট OCR ও ফর্ম অটো-ফিল সিস্টেম</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              900: '#064e3b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col antialiased selection:bg-brand-500 selection:text-white">
+
+  <!-- হেডার -->
+  <header class="sticky top-0 z-40 backdrop-blur-md bg-slate-900/90 border-b border-slate-800 px-4 lg:px-8 py-3.5 flex justify-between items-center shadow-2xl">
+    <div class="flex items-center space-x-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-teal-400 flex items-center justify-center shadow-lg shadow-brand-500/20">
+        <i class="fa-solid fa-file-lines text-white text-lg"></i>
+      </div>
+      <div>
+        <h1 class="text-base sm:text-lg font-bold bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
+          স্মার্ট OCR ও ডকুমেন্ট স্ক্যানার
+        </h1>
+        <p class="text-xs text-brand-500 font-medium tracking-wide">Gemini Vision API (Omniroute) + অটো ফরম ফিল্ডার</p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <span id="keyStatusBadge" class="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-red-500/10 text-red-400 border border-red-500/20">
+        <span class="w-1.5 h-1.5 rounded-full bg-red-400 mr-1.5 animate-pulse"></span> API Key অনুপস্থিত
+      </span>
+
+      <!-- গিয়ার/সেটিংস আইকন -->
+      <button onclick="openSettingsModal()" class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 px-3.5 py-2 rounded-xl text-xs font-semibold border border-slate-700/60 transition-all">
+        <i class="fa-solid fa-gear text-brand-500"></i>
+        <span>সেটিংস</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- মূল কন্টেন্ট -->
+  <main class="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
+    
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      
+      <!-- বাম পাশ: ড্রাগ এন্ড ড্রোপ বক্স ও হিস্ট্রি -->
+      <div class="space-y-6">
+        <!-- ড্রাগ এন্ড ড্রোপ বক্স -->
+        <div class="bg-slate-900/70 border border-slate-800 rounded-2xl p-5 shadow-xl backdrop-blur-md space-y-4">
+          <h2 class="text-sm font-bold text-slate-200 flex items-center gap-2">
+            <i class="fa-solid fa-cloud-arrow-up text-brand-500"></i> ডকুমেন্ট বা ইমেজ আপলোড করুন
+          </h2>
+
+          <div id="dropZone" 
+            ondragover="handleDragOver(event)" 
+            ondragleave="handleDragLeave(event)" 
+            ondrop="handleFileDrop(event)"
+            onclick="document.getElementById('imageFileInput').click()"
+            class="relative border-2 border-dashed border-slate-700 hover:border-brand-500/60 rounded-xl p-6 text-center bg-slate-950/40 hover:bg-slate-950/70 transition-all cursor-pointer group">
+            
+            <input type="file" id="imageFileInput" accept="image/*" class="hidden" onchange="handleImageSelected(event)">
+            
+            <div id="uploadPlaceholder" class="space-y-2">
+              <i class="fa-solid fa-image text-3xl text-slate-500 group-hover:text-brand-500 transition-colors"></i>
+              <p class="text-xs text-slate-400 font-medium">এখানে ড্রাগ এন্ড ড্রপ করুন অথবা ট্যাপ করে সিলেক্ট করুন</p>
+              <p class="text-[10px] text-slate-500">সমর্থিত ফরম্যাট: JPG, PNG, WEBP</p>
+            </div>
+
+            <div id="previewContainer" class="hidden space-y-3">
+              <img id="imagePreview" src="" alt="Uploaded Document" class="h-32 mx-auto rounded-lg border border-slate-700 shadow-md object-contain">
+              <p id="fileNameDisplay" class="text-xs font-semibold text-slate-300 truncate"></p>
+              <span class="text-[11px] text-brand-400 font-medium">OCR স্ক্যান করার জন্য প্রস্তুত</span>
+            </div>
+          </div>
+
+          <button id="scanBtn" onclick="executeOCRScan()" disabled
+            class="w-full bg-gradient-to-r from-brand-600 to-teal-600 hover:from-brand-500 hover:to-teal-500 disabled:opacity-50 active:scale-[0.99] text-white font-bold py-3 px-4 rounded-xl shadow-lg shadow-brand-500/20 flex items-center justify-center gap-2 text-xs transition-all">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>OCR স্ক্যান ও এক্সট্রাক্ট করুন</span>
+          </button>
+        </div>
+
+        <!-- ব্যক্তির নাম অনুযায়ী হিস্ট্রি প্যানেল -->
+        <div class="bg-slate-900/70 border border-slate-800 rounded-2xl p-5 shadow-xl backdrop-blur-md space-y-3">
+          <div class="flex justify-between items-center">
+            <h3 class="text-xs font-bold text-slate-300 flex items-center gap-2">
+              <i class="fa-solid fa-history text-brand-500"></i> ব্যক্তির নাম অনুযায়ী হিস্ট্রি
+            </h3>
+            <button onclick="clearHistory()" class="text-[10px] text-red-400 hover:text-red-300">সব মুছুন</button>
+          </div>
+          <p class="text-[10px] text-slate-400">নামের উপর ক্লিক করলে সেই তথ্য ফর্ম বক্সে লোড হবে।</p>
+          <div id="historyList" class="space-y-2 max-h-56 overflow-y-auto text-xs">
+            <p class="text-slate-500 italic text-center py-4">কোনো হিস্ট্রি সংরক্ষিত নেই</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ডান পাশ: এক্সট্রাক্ট হওয়া ও এডিট করার টেক্সট বক্সসমূহ -->
+      <div class="lg:col-span-2 bg-slate-900/70 border border-slate-800 rounded-2xl p-5 sm:p-7 shadow-xl backdrop-blur-md space-y-5">
+        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+          <div>
+            <h2 class="text-sm font-bold text-slate-100">এক্সট্রাক্ট ও সংশোধন ফর্ম (Editable Form)</h2>
+            <p class="text-[11px] text-slate-400">ভুল তথ্য যেকোনো সময় সংশোধন করতে পারবেন।</p>
+          </div>
+          <button onclick="copyAllFields()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-700 flex items-center gap-1.5 transition-all">
+            <i class="fa-regular fa-copy text-brand-500"></i> সব কপি করুন
+          </button>
+        </div>
+
+        <!-- লোডিং ওভারলে -->
+        <div id="loadingOverlay" class="hidden flex flex-col items-center justify-center space-y-3 py-10">
+          <div class="w-8 h-8 border-3 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
+          <p class="text-xs font-medium text-brand-400 animate-pulse">Omniroute (Gemini Latest) দিয়ে OCR স্ক্যান ও বানান প্রসেস হচ্ছে...</p>
+        </div>
+
+        <!-- ফর্ম ফিল্ডস -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <div class="space-y-1">
+            <label class="text-xs font-semibold text-slate-300">নিজ নাম (বাংলা):</label>
+            <input type="text" id="name_bn" placeholder="বাংলায় নাম" class="form-field-input">
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-xs font-semibold text-slate-300">নিজ নাম (ইংরেজি):</label>
+            <input type="text" id="name_en" placeholder="English Name" class="form-field-input font-mono">
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-xs font-semibold text-slate-300">পিতার নাম (বাংলা):</label>
+            <input type="text" id="father_bn" placeholder="পিতার নাম বাংলা" class="form-field-input">
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-xs font-semibold text-slate-300">পিতার নাম (ইংরেজি):</label>
+            <input type="text" id="father_en" placeholder="Father's Name English" class="form-field-input font-mono">
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-xs font-semibold text-slate-300">মাতার নাম (বাংলা):</label>
+            <input type="text" id="mother_bn" placeholder="মাতার নাম বাংলা" class="form-field-input">
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-xs font-semibold text-slate-300">মাতার নাম (ইংরেজি):</label>
+            <input type="text" id="mother_en" placeholder="Mother's Name English" class="form-field-input font-mono">
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-xs font-semibold text-slate-300">জন্ম তারিখ:</label>
+            <input type="text" id="dob" placeholder="YYYY-MM-DD" class="form-field-input font-mono">
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-xs font-semibold text-slate-300">জাতীয় পরিচয় পত্র নং:</label>
+            <input type="text" id="nid" placeholder="NID No" class="form-field-input font-mono">
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-xs font-semibold text-slate-300">জন্ম নিবন্ধন নং:</label>
+            <input type="text" id="brn" placeholder="Birth Registration No" class="form-field-input font-mono">
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-xs font-semibold text-slate-300">গ্রাম (বাংলা):</label>
+            <input type="text" id="village_bn" placeholder="গ্রাম বাংলা" class="form-field-input">
+          </div>
+
+          <div class="space-y-1 md:col-span-2">
+            <label class="text-xs font-semibold text-slate-300">গ্রাম (ইংরেজি):</label>
+            <input type="text" id="village_en" placeholder="Village English" class="form-field-input font-mono">
+          </div>
+
+          <div class="space-y-1 md:col-span-2">
+            <label class="text-xs font-semibold text-slate-300">বিবিধ (বাকি তথ্যসমূহ):</label>
+            <textarea id="misc" rows="2" placeholder="নথি থেকে প্রাপ্ত অন্যান্য অতিরিক্ত তথ্য..." class="form-field-input resize-y"></textarea>
+          </div>
+
+        </div>
+
+        <div class="pt-3">
+          <button onclick="saveCurrentRecord()" class="w-full bg-slate-800 hover:bg-slate-700 text-brand-400 border border-brand-500/30 text-xs font-bold py-2.5 rounded-xl transition-all">
+            <i class="fa-solid fa-floppy-disk mr-1.5"></i> বর্তমান তথ্য হিস্ট্রিতে সংরক্ষণ করুন
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- সেটিংস মোডাল -->
+  <div id="settingsModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-5">
+      
+      <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+        <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
+          <i class="fa-solid fa-key text-brand-500"></i> Omniroute API সেটআপ
+        </h3>
+        <button onclick="closeSettingsModal()" class="text-slate-400 hover:text-white text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-medium text-slate-400 mb-1.5">Omniroute (OpenRouter) Free API Key দিন:</label>
+          <div class="relative">
+            <input type="password" id="apiKeyInputField" 
+              placeholder="sk-or-v1-..." 
+              class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-500/50">
+            <button onclick="toggleKeyVisibility()" class="absolute right-3 top-2.5 text-slate-500 hover:text-slate-300 text-xs">
+              <i id="eyeIcon" class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 space-y-1.5">
+          <p class="text-[11px] text-slate-400 leading-relaxed">
+            ℹ️ <strong class="text-slate-200">তথ্য:</strong> OCR স্ক্যানিংয়ের জন্য Omniroute এর মাধ্যমে লেটেস্ট ফ্রি Gemini মডেল (`google/gemini-2.0-flash-exp:free`) ব্যবহার করা হবে।
+          </p>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-2">
+        <button onclick="closeSettingsModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-semibold transition-all">বাতিল</button>
+        <button onclick="saveApiKeyToStorage()" class="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-semibold shadow-md shadow-brand-500/20 transition-all">সেভ করুন</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- টোস্ট নোটিফিকেশন -->
+  <div id="toastNotification" class="fixed bottom-5 right-5 hidden z-50 bg-slate-800 border border-slate-700 text-slate-100 px-4 py-3 rounded-xl shadow-2xl text-xs font-medium flex items-center gap-2">
+    <i id="toastIcon" class="fa-solid fa-circle-check text-brand-500"></i>
+    <span id="toastMessage">সফলভাবে সম্পন্ন হয়েছে</span>
+  </div>
+
+  <!-- স্টাইল টেমপ্লেট -->
+  <style>
+    .form-field-input {
+      width: 100%;
+      background-color: rgba(2, 6, 23, 0.9);
+      border: 1px solid rgba(51, 65, 85, 0.8);
+      border-radius: 0.75rem;
+      padding: 0.6rem 0.75rem;
+      font-size: 0.8125rem;
+      color: #f8fafc;
+      transition: all 0.2s;
+    }
+    .form-field-input:focus {
+      outline: none;
+      border-color: #10b981;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+    }
+  </style>
+
+  <!-- জাভাস্ক্রিপ্ট লজিক -->
+  <script>
+    let currentImageBase64 = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      checkSavedApiKeyStatus();
+      renderHistoryList();
+    });
+
+    // ড্রাগ এন্ড ড্রোপ হ্যান্ডলার
+    function handleDragOver(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      document.getElementById('dropZone').classList.add('border-brand-500', 'bg-brand-500/10');
+    }
+
+    function handleDragLeave(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      document.getElementById('dropZone').classList.remove('border-brand-500', 'bg-brand-500/10');
+    }
+
+    function handleFileDrop(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      document.getElementById('dropZone').classList.remove('border-brand-500', 'bg-brand-500/10');
+      const files = e.dataTransfer.files;
+      if (files && files.length > 0) {
+        processSelectedFile(files[0]);
+      }
+    }
+
+    function handleImageSelected(e) {
+      const file = e.target.files[0];
+      if (file) processSelectedFile(file);
+    }
+
+    function processSelectedFile(file) {
+      if (!file.type.startsWith('image/')) {
+        showToast("অনুগ্রহ করে একটি সঠিক ইমেজ ফাইল নির্বাচন করুন", true);
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        currentImageBase64 = e.target.result;
+        document.getElementById('imagePreview').src = currentImageBase64;
+        document.getElementById('fileNameDisplay').innerText = file.name;
+        document.getElementById('uploadPlaceholder').classList.add('hidden');
+        document.getElementById('previewContainer').classList.remove('hidden');
+        document.getElementById('scanBtn').removeAttribute('disabled');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // সেটিংস মোডাল কন্ট্রোল
+    function openSettingsModal() {
+      const key = localStorage.getItem('omniroute_key') || '';
+      document.getElementById('apiKeyInputField').value = key;
+      document.getElementById('settingsModal').classList.remove('hidden');
+    }
+
+    function closeSettingsModal() {
+      document.getElementById('settingsModal').classList.add('hidden');
+    }
+
+    function toggleKeyVisibility() {
+      const field = document.getElementById('apiKeyInputField');
+      const icon = document.getElementById('eyeIcon');
+      if (field.type === 'password') {
+        field.type = 'text';
+        icon.className = 'fa-solid fa-eye-slash';
+      } else {
+        field.type = 'password';
+        icon.className = 'fa-solid fa-eye';
+      }
+    }
+
+    function saveApiKeyToStorage() {
+      const key = document.getElementById('apiKeyInputField').value.trim();
+      if (!key) {
+        showToast("অনুগ্রহ করে একটি সঠিক API Key দিন", true);
+        return;
+      }
+      localStorage.setItem('omniroute_key', key);
+      checkSavedApiKeyStatus();
+      closeSettingsModal();
+      showToast("API Key সফলভাবে সেভ হয়েছে");
+    }
+
+    function checkSavedApiKeyStatus() {
+      const key = localStorage.getItem('omniroute_key');
+      const badge = document.getElementById('keyStatusBadge');
+      if (key && key.length > 10) {
+        badge.className = "hidden sm:inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
+        badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5"></span> API কানেক্টেড`;
+      } else {
+        badge.className = "hidden sm:inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-red-500/10 text-red-400 border border-red-500/20";
+        badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-red-400 mr-1.5 animate-pulse"></span> API Key অনুপস্থিত`;
+      }
+    }
+
+    // OCR স্ক্যান এক্সিকিউশন (Omniroute Gemini Latest Free Model)
+    async function executeOCRScan() {
+      const apiKey = localStorage.getItem('omniroute_key');
+      if (!apiKey) {
+        showToast("প্রথমে সেটিংস থেকে Omniroute API Key সেভ করুন", true);
+        openSettingsModal();
+        return;
+      }
+
+      if (!currentImageBase64) {
+        showToast("প্রথমে একটি ছবি আপলোড করুন", true);
+        return;
+      }
+
+      const loader = document.getElementById('loadingOverlay');
+      loader.classList.remove('hidden');
+
+      const systemPrompt = `আপনি একজন নির্ভুল OCR এবং ডকুমেন্ট ডেটা এক্সট্র্যাক্টর এআই। আপলোডকৃত নথির ছবি স্ক্যান করে নিচের ফিল্ডগুলো নির্ভুলভাবে JSON ফরম্যাটে আউটপুট দিন। 
+বিশেষ নির্দেশনা:
+1. নিজ নাম, পিতার নাম, মাতার নাম এবং গ্রাম যদি ইমেজে ইংরেজিতে দেওয়া না থাকে, তবে সঠিক ও শুদ্ধ বানান ক্যাপিটাল লেটারে ইংরেজিতে (en) রূপান্তর করে দিন (যেমন: 'মোছা:' বা 'মোসাম্মৎ' থাকলে 'MST.' ব্যবহার করুন)।
+2. যদি ইমেজে এই নামগুলো বা গ্রাম আগে থেকেই ইংরেজিতে থাকে, তবে নথিতে থাকা সেই ইংরেজি বানানটিই হুবহু ব্যবহার করুন।
+3. JSON কি (Key) গুলো ঠিক এভাবে দেবেন: 
+{
+  "name_bn": "",
+  "name_en": "",
+  "father_bn": "",
+  "father_en": "",
+  "mother_bn": "",
+  "mother_en": "",
+  "dob": "",
+  "nid": "",
+  "brn": "",
+  "village_bn": "",
+  "village_en": "",
+  "misc": ""
+}`;
+
+      try {
+        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${apiKey}`,
+            "Content-Type": "application/json",
+            "HTTP-Referer": window.location.href,
+            "X-Title": "OCR Auto Fielder"
+          },
+          body: JSON.stringify({
+            model: "google/gemini-2.0-flash-exp:free",
+            messages: [
+              { role: "system", content: systemPrompt },
+              {
+                role: "user",
+                content: [
+                  { type: "text", text: "এই নথির ছবি থেকে তথ্য এক্সট্রাক্ট করে দিন।" },
+                  { type: "image_url", image_url: { url: currentImageBase64 } }
+                ]
+              }
+            ]
+          })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.choices && data.choices.length > 0) {
+          let content = data.choices[0].message.content;
+          
+          try {
+            content = content.replace(/```json/g, '').replace(/```/g, '').trim();
+            const parsedData = JSON.parse(content);
+            
+            document.getElementById('name_bn').value = parsedData.name_bn || '';
+            document.getElementById('name_en').value = (parsedData.name_en || '').toUpperCase();
+            document.getElementById('father_bn').value = parsedData.father_bn || '';
+            document.getElementById('father_en').value = (parsedData.father_en || '').toUpperCase();
+            document.getElementById('mother_bn').value = parsedData.mother_bn || '';
+            document.getElementById('mother_en').value = (parsedData.mother_en || '').toUpperCase();
+            document.getElementById('dob').value = parsedData.dob || '';
+            document.getElementById('nid').value = parsedData.nid || '';
+            document.getElementById('brn').value = parsedData.brn || '';
+            document.getElementById('village_bn').value = parsedData.village_bn || '';
+            document.getElementById('village_en').value = (parsedData.village_en || '').toUpperCase();
+            document.getElementById('misc').value = parsedData.misc || '';
+
+            showToast("OCR স্ক্যান ও ডেটা এক্সট্রাক্ট সফল হয়েছে!");
+            
+            if (parsedData.name_bn) {
+              saveCurrentRecord(false);
+            }
+          } catch (jsonErr) {
+            console.error("JSON Parse Error:", jsonErr);
+            showToast("ডেটা ফরম্যাট পার্স করতে সমস্যা হয়েছে", true);
+          }
+        } else {
+          const errMsg = data.error?.message || "API সাড়াদানে ব্যর্থ হয়েছে।";
+          showToast(`ত্রুটি: ${errMsg}`, true);
+        }
+      } catch (err) {
+        showToast(`সংযোগ ব্যর্থ: ${err.message}`, true);
+      } finally {
+        loader.classList.add('hidden');
+      }
+    }
+
+    // ব্যক্তির নাম অনুযায়ী হিস্ট্রি ম্যানেজমেন্ট
+    function saveCurrentRecord(showMsg = true) {
+      const name = document.getElementById('name_bn').value.trim();
+      if (!name) {
+        if (showMsg) showToast("সংরক্ষণ করার মতো নাম পাওয়া যায়নি", true);
+        return;
+      }
+
+      const record = {
+        name: name,
+        name_en: document.getElementById('name_en').value,
+        father_bn: document.getElementById('father_bn').value,
+        father_en: document.getElementById('father_en').value,
+        mother_bn: document.getElementById('mother_bn').value,
+        mother_en: document.getElementById('mother_en').value,
+        dob: document.getElementById('dob').value,
+        nid: document.getElementById('nid').value,
+        brn: document.getElementById('brn').value,
+        village_bn: document.getElementById('village_bn').value,
+        village_en: document.getElementById('village_en').value,
+        misc: document.getElementById('misc').value,
+        timestamp: new Date().toLocaleString('bn-BD')
+      };
+
+      let history = JSON.parse(localStorage.getItem('ocr_person_history') || '[]');
+      
+      // একই নাম থাকলে আপডেট বা নতুন যুক্ত করা
+      history = history.filter(item => item.name !== name);
+      history.unshift(record);
+
+      localStorage.setItem('ocr_person_history', JSON.stringify(history));
+      renderHistoryList();
+      if (showMsg) showToast(`"${name}" এর তথ্য হিস্ট্রিতে সংরক্ষিত হয়েছে`);
+    }
+
+    function renderHistoryList() {
+      const historyListContainer = document.getElementById('historyList');
+      const history = JSON.parse(localStorage.getItem('ocr_person_history') || '[]');
+
+      if (history.length === 0) {
+        historyListContainer.innerHTML = `<p class="text-slate-500 italic text-center py-4">কোনো হিস্ট্রি সংরক্ষিত নেই</p>`;
+        return;
+      }
+
+      let html = '';
+      history.forEach((item, index) => {
+        html += `
+          <div onclick="loadRecordFromHistory('${item.name}')" class="flex justify-between items-center bg-slate-950/80 hover:bg-slate-800 p-2.5 rounded-xl border border-slate-800 cursor-pointer transition-all">
+            <div>
+              <p class="font-bold text-slate-200">${item.name}</p>
+              <p class="text-[10px] text-slate-400">NID/BRN: ${item.nid || item.brn || 'প্রযোজ্য নয়'} | ${item.timestamp}</p>
+            </div>
+            <i class="fa-solid fa-arrow-right text-brand-500 text-xs"></i>
+          </div>
+        `;
+      });
+      historyListContainer.innerHTML = html;
+    }
+
+    function loadRecordFromHistory(name) {
+      const history = JSON.parse(localStorage.getItem('ocr_person_history') || '[]');
+      const record = history.find(item => item.name === name);
+
+      if (record) {
+        document.getElementById('name_bn').value = record.name || '';
+        document.getElementById('name_en').value = record.name_en || '';
+        document.getElementById('father_bn').value = record.father_bn || '';
+        document.getElementById('father_en').value = record.father_en || '';
+        document.getElementById('mother_bn').value = record.mother_bn || '';
+        document.getElementById('mother_en').value = record.mother_en || '';
+        document.getElementById('dob').value = record.dob || '';
+        document.getElementById('nid').value = record.nid || '';
+        document.getElementById('brn').value = record.brn || '';
+        document.getElementById('village_bn').value = record.village_bn || '';
+        document.getElementById('village_en').value = record.village_en || '';
+        document.getElementById('misc').value = record.misc || '';
+
+        showToast(`"${name}" এর তথ্য সফলভাবে লোড করা হয়েছে`);
+      }
+    }
+
+    function clearHistory() {
+      if (confirm("আপনি কি সমস্ত হিস্ট্রি মুছে ফেলতে চান?")) {
+        localStorage.removeItem('ocr_person_history');
+        renderHistoryList();
+        showToast("হিস্ট্রি মুছে ফেলা হয়েছে");
+      }
+    }
+
+    // কপি ও নোটিফিকেশন হেল্পার
+    function copyAllFields() {
+      const dataText = `
+নিজ নাম (বাংলা): ${document.getElementById('name_bn').value}
+নিজ নাম (ইংরেজি): ${document.getElementById('name_en').value}
+পিতার নাম (বাংলা): ${document.getElementById('father_bn').value}
+পিতার নাম (ইংরেজি): ${document.getElementById('father_en').value}
+মাতার নাম (বাংলা): ${document.getElementById('mother_bn').value}
+মাতার নাম (ইংরেজি): ${document.getElementById('mother_en').value}
+জন্ম তারিখ: ${document.getElementById('dob').value}
+জাতীয় পরিচয় পত্র নং: ${document.getElementById('nid').value}
+জন্ম নিবন্ধন নং: ${document.getElementById('brn').value}
+গ্রাম (বাংলা): ${document.getElementById('village_bn').value}
+গ্রাম (ইংরেজি): ${document.getElementById('village_en').value}
+বিবিধ: ${document.getElementById('misc').value}
+      `.trim();
+
+      navigator.clipboard.writeText(dataText);
+      showToast("সকল তথ্য ক্লিপবোর্ডে কপি করা হয়েছে");
+    }
+
+    function showToast(message, isError = false) {
+      const toast = document.getElementById('toastNotification');
+      const icon = document.getElementById('toastIcon');
+      const msg = document.getElementById('toastMessage');
+
+      msg.innerText = message;
+      icon.className = isError ? "fa-solid fa-circle-exclamation text-red-400" : "fa-solid fa-circle-check text-brand-500";
+
+      toast.classList.remove('hidden');
+      setTimeout(() => { toast.classList.add('hidden'); }, 3500);
+    }
+  </script>
+</body>
+</html>
