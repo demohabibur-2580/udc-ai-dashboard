@@ -1,70 +1,643 @@
 <!DOCTYPE html>
 <html lang="bn" class="dark">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EduAI Academy - Interactive Real Teacher Edition</title>
-  <script src="https://cdn.tailwindcss.com"></script><script>localStorage.setItem('last_visited_page','page2.html');tailwind.config={darkMode:'class'};</script>
-  <script src="https://unpkg.com/lucide@latest"></script><script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-  <style>@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');body{font-family:'Hind Siliguri',sans-serif}</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduAI Academy - Interactive Real Teacher Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        localStorage.setItem('last_visited_page', 'page2.html');
+        tailwind.config = { darkMode: 'class' };
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Hind Siliguri', sans-serif; }
+    </style>
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
-<header class="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 sticky top-0 z-40 backdrop-blur-md"><div class="max-w-7xl mx-auto px-3 sm:px-4 py-2.5 sm:py-3 flex flex-wrap justify-between items-center gap-2">
-  <div class="flex items-center gap-2 sm:gap-3 shrink-0"><div class="p-1.5 sm:p-2 bg-indigo-600 rounded-lg text-white"><i data-lucide="graduation-cap" class="w-5 h-5 sm:w-6 sm:h-6"></i></div><h1 class="text-base sm:text-xl font-bold bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent">EduAI Academy</h1></div>
-  <nav class="flex items-center bg-slate-100 dark:bg-slate-950 p-1 rounded-xl border border-slate-300 dark:border-slate-800 text-xs font-semibold"><a href="index.html" class="px-3 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-indigo-500">১০ং কমলপুর ইউনিয়ন ডিজিটাল সেন্টার</a><a href="page2.html" class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white shadow">EduAI Academy</a><a href="page3.html" class="px-3 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-indigo-500">গ্রামীণ এআই সেবা</a></nav>
-  <div class="flex items-center gap-1.5 sm:gap-2"><button onclick="openMemoryModal()" class="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 font-bold text-xs"><i data-lucide="sparkles" class="w-4 h-4"></i><span class="hidden sm:inline">মনে রাখার</span> টেকনিক</button><div class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-500 font-bold text-xs"><i data-lucide="flame" class="w-4 h-4 fill-amber-500"></i><span>1</span> দিন</div><button id="themeToggleBtn" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700"><i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i><i data-lucide="moon" class="w-5 h-5 dark:hidden"></i></button><button id="settingsBtn" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700" title="Gemini API সেটিংস"><i data-lucide="settings" class="w-5 h-5"></i></button></div>
-</div></header>
-<div class="flex-1 max-w-7xl w-full mx-auto p-2 sm:p-4 grid grid-cols-1 md:grid-cols-4 gap-3 sm:gap-4">
-<aside class="md:col-span-1 space-y-3 sm:space-y-4"><div><h2 class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider px-2 mb-2">৭টি বিষয়ভিত্তিক মডিউল</h2><nav id="moduleList" class="space-y-1.5"></nav></div>
-<div class="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-3"><div class="flex justify-between"><span class="text-xs font-bold"><i data-lucide="timer" class="inline w-4 h-4 text-amber-500"></i> ২৫ মিনিট স্টাডি টাইমার</span><span id="timerDisplay" class="font-mono font-bold text-indigo-500">25:00</span></div><div class="flex gap-2"><button id="timerToggleBtn" onclick="toggleTimer()" class="flex-1 py-1.5 bg-indigo-600 text-white rounded-lg text-xs">শুরু করুন</button><button onclick="resetTimer()" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 rounded-lg text-xs">রিসেট</button></div><p class="text-[11px] text-slate-500">টানা ২৫ মিনিট পড়ার পর ৫ মিনিটের বিরতি নাও।</p></div>
-<div class="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2"><label class="flex justify-between text-xs font-bold"><span><i data-lucide="volume-2" class="inline w-4 h-4 text-indigo-500"></i> অটো-ভয়েস টিচার</span><input type="checkbox" id="autoVoiceToggle" checked></label><p class="text-[11px] text-slate-500">অন থাকলে শিক্ষক সরাসরি ভয়েসে বুঝিয়ে দেবেন।</p></div></aside>
-<main class="md:col-span-3 flex flex-col bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden h-[calc(100vh-7.5rem)] sm:h-[calc(100vh-8.5rem)] relative">
-<div class="bg-amber-500/10 border-b border-amber-500/20 px-4 py-2 text-xs text-amber-700 dark:text-amber-300 flex justify-between"><span><i data-lucide="lightbulb" class="inline w-4 h-4"></i> <strong>পড়াশোনার বিশেষ টিপস:</strong> তৈরি উত্তর মুখস্থ না করে নিজের ভাষায় খাতায় লেখো।</span><button onclick="openMemoryModal()" class="underline">ট্রিকস দেখুন</button></div>
-<div id="chatHeader" class="p-3 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center"><div><h3 id="expertTitle" class="font-bold">--</h3><p class="text-xs text-slate-500">মডেল: <span class="text-indigo-500 font-mono font-bold">gemini-3.8-flash</span> (Fallback: gemini-3.5-flash-lite)</p></div><span id="apiStatus" class="text-xs px-2.5 py-1 rounded-full bg-red-500/10 text-red-500">API Key অনুপস্থিত</span></div>
-<div id="chatContainer" class="flex-1 overflow-y-auto p-4 space-y-4"><div class="text-center py-8 text-slate-500"><i data-lucide="user-check" class="w-8 h-8 mx-auto text-indigo-500"></i><h4 class="font-semibold mt-3">শিক্ষকের কাছে প্রশ্ন করো</h4><p class="text-sm">পড়ার সমস্যা লেখো বা ছবি যোগ করো।</p></div></div>
-<div id="imagePreviewContainer" class="px-4 pt-2 hidden items-center gap-2"><img id="imagePreview" class="h-16 w-16 object-cover rounded-xl border border-indigo-500" alt="ছবির প্রিভিউ"><button id="removeImageBtn" class="bg-red-600 text-white rounded-full p-1"><i data-lucide="x" class="w-4 h-4"></i></button><span class="text-xs text-slate-500">ছবি সংযুক্ত</span></div>
-<div class="p-3 border-t border-slate-200 dark:border-slate-800 space-y-2"><div id="nextBtnContainer" class="hidden text-center"><button id="nextChunkBtn" class="px-4 py-1.5 bg-emerald-600 text-white rounded-xl text-sm">পরবর্তী অংশ দেখুন</button></div><form id="chatForm" class="flex items-center gap-2"><input type="file" id="fileInput" accept="image/*" class="hidden"><button type="button" id="uploadBtn" title="ছবি" class="p-2.5 bg-slate-200 dark:bg-slate-800 rounded-xl"><i data-lucide="image" class="w-5 h-5"></i></button><button type="button" id="cameraBtn" title="ক্যামেরা" class="p-2.5 bg-slate-200 dark:bg-slate-800 rounded-xl"><i data-lucide="camera" class="w-5 h-5"></i></button><button type="button" id="micBtn" title="কথা বলুন" class="p-2.5 bg-slate-200 dark:bg-slate-800 rounded-xl"><i data-lucide="mic" class="w-5 h-5"></i></button><input id="userInput" class="flex-1 min-w-0 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3 text-sm" placeholder="শিক্ষককে প্রশ্ন করো..."><button type="submit" class="p-3 bg-indigo-600 text-white rounded-xl"><i data-lucide="send" class="w-5 h-5"></i></button></form></div>
-</main></div><footer class="mt-auto py-3 border-t border-slate-200 dark:border-slate-800 text-center text-xs text-slate-500">© ২০২৬ কমলপুর ইউনিয়ন ডিজিটাল সেন্টার — ভার্সন ২.০</footer>
-<div id="memoryModal" class="fixed inset-0 bg-slate-950/80 z-50 hidden items-center justify-center p-4"><div class="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-5 space-y-4"><div class="flex justify-between"><h3 class="font-bold">সহজে মনে রাখার টেকনিক</h3><button onclick="closeMemoryModal()">✕</button></div><div id="memoryTipContent"></div><button onclick="getRandomMemoryTip()" class="w-full bg-amber-500 text-black rounded-xl p-2">নতুন ট্রিকস</button></div></div>
-<div id="cameraModal" class="fixed inset-0 bg-slate-950/90 z-50 hidden items-center justify-center p-4"><div class="bg-white dark:bg-slate-900 rounded-2xl max-w-lg w-full p-4 space-y-4 text-center"><button id="closeCameraBtn" class="float-right">✕</button><h3>খাতার ছবি তোলো</h3><video id="webcam" autoplay playsinline class="w-full aspect-video bg-black rounded-xl"></video><canvas id="cameraCanvas" class="hidden"></canvas><button id="captureBtn" class="bg-indigo-600 text-white rounded-xl px-5 py-2">ছবি স্ক্যান করো</button></div></div>
-<div id="settingsModal" class="fixed inset-0 bg-slate-950/80 z-50 hidden items-center justify-center p-4"><div class="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 space-y-4"><div class="flex justify-between"><h3 class="font-bold">Gemini API সেটআপ</h3><button id="closeSettingsBtn">✕</button></div><label for="apiKeyInput" class="text-sm">Gemini API Key</label><input id="apiKeyInput" type="password" autocomplete="off" placeholder="AIza..." class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3"><p class="text-xs text-amber-500">ব্রাউজারে API key রাখা পাবলিক সাইটে নিরাপদ নয়; production-এ backend ব্যবহার করুন।</p><a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="text-xs text-indigo-500 underline">Google AI Studio থেকে key নিন</a><button id="saveApiKey" class="w-full bg-indigo-600 text-white rounded-xl py-2.5">সেভ করুন</button></div></div>
+
+    <header class="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 sticky top-0 z-40 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-3 sm:px-4 py-2.5 sm:py-3 flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+                <div class="p-1.5 sm:p-2 bg-indigo-600 rounded-lg text-white">
+                    <i data-lucide="graduation-cap" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                </div>
+                <div>
+                    <h1 class="text-base sm:text-xl font-bold bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent">
+                        EduAI Academy
+                    </h1>
+                </div>
+            </div>
+
+            <nav class="flex items-center bg-slate-100 dark:bg-slate-950 p-1 rounded-xl border border-slate-300 dark:border-slate-800 text-xs font-semibold">
+              <a href="index.html" class="px-3 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-indigo-500 transition-all">১০ং কমলপুর ইউনিয়ন ডিজিটাল সেন্টার</a>
+              <a href="page2.html" class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white shadow">EduAI Academy</a>
+              <a href="page3.html" class="px-3 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-indigo-500 transition-all">গ্রামীণ এআই সেবা</a>
+            </nav>
+
+            <div class="flex items-center gap-1.5 sm:gap-2">
+                <button id="memoryBtn" onclick="openMemoryModal()" class="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 font-bold text-xs hover:bg-amber-500/20 transition-all shrink-0" title="সহজে মনে রাখার টেকনিক">
+                    <i data-lucide="sparkles" class="w-4 h-4 text-amber-500"></i>
+                    <span class="hidden sm:inline">মনে রাখার</span> টেকনিক
+                </button>
+
+                <div class="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-500 font-bold text-xs shrink-0" title="দৈনিক পড়ার অভ্যাস">
+                    <i data-lucide="flame" class="w-4 h-4 text-amber-500 fill-amber-500"></i>
+                    <span id="streakCount">1</span> দিন
+                </div>
+
+                <button id="themeToggleBtn" class="p-1.5 sm:p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-all border border-slate-300 dark:border-slate-700 shrink-0" title="থিম পরিবর্তন">
+                    <i data-lucide="sun" class="w-4 h-4 sm:w-5 sm:h-5 hidden dark:block"></i>
+                    <i data-lucide="moon" class="w-4 h-4 sm:w-5 sm:h-5 block dark:hidden"></i>
+                </button>
+
+                <button id="settingsBtn" class="p-1.5 sm:p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-all border border-slate-300 dark:border-slate-700 shrink-0" title="সেটিংস">
+                    <i data-lucide="settings" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex-1 max-w-7xl w-full mx-auto p-2 sm:p-4 grid grid-cols-1 md:grid-cols-4 gap-3 sm:gap-4">
+        <aside class="md:col-span-1 space-y-3 sm:space-y-4">
+            <div>
+                <h2 class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider px-2 mb-2">৭টি বিষয়ভিত্তিক মডিউল</h2>
+                <nav id="moduleList" class="space-y-1.5"></nav>
+            </div>
+
+            <div class="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                        <i data-lucide="timer" class="w-4 h-4 text-amber-500"></i> ২৫ মিনিট স্টাডি টাইমার
+                    </span>
+                    <span id="timerDisplay" class="text-sm font-mono font-bold text-indigo-500 dark:text-indigo-400">25:00</span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                    <button id="timerToggleBtn" onclick="toggleTimer()" class="flex-1 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-semibold transition-all">শুরু করুন</button>
+                    <button onclick="resetTimer()" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg text-xs font-medium transition-all">রিসেট</button>
+                </div>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400">টানা ২৫ মিনিট পড়ার পর ৫ মিনিটের বিরতি নাও।</p>
+            </div>
+
+            <div class="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                        <i data-lucide="volume-2" class="w-4 h-4 text-indigo-500"></i> অটো-ভয়েস টিচার
+                    </span>
+                    <input type="checkbox" id="autoVoiceToggle" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500" checked>
+                </div>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400">অন থাকলে শিক্ষক সরাসরি ভয়েসে সুন্দরভাবে বুঝিয়ে দেবেন।</p>
+            </div>
+        </aside>
+
+        <main id="dropZone" class="md:col-span-3 flex flex-col bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden h-[calc(100vh-7.5rem)] sm:h-[calc(100vh-8.5rem)] relative">
+            <div class="bg-amber-500/10 border-b border-amber-500/20 px-3 sm:px-4 py-2 text-xs text-amber-700 dark:text-amber-300 flex items-center justify-between gap-2">
+                <span class="flex items-center gap-2 font-medium">
+                    <i data-lucide="lightbulb" class="w-4 h-4 text-amber-500 shrink-0"></i>
+                    <span><strong>পড়াশোনার বিশেষ টিপস:</strong> তৈরি উত্তর মুখস্থ না করে নিজের ভাষায় খাতায় লেখো।</span>
+                </span>
+                <button onclick="openMemoryModal()" class="underline font-bold text-amber-600 dark:text-amber-400 shrink-0 text-[11px]">ট্রিকস দেখুন</button>
+            </div>
+
+            <div id="dragOverlay" class="absolute inset-0 bg-indigo-950/80 backdrop-blur-sm z-30 flex flex-col items-center justify-center border-2 border-dashed border-indigo-500 hidden">
+                <i data-lucide="upload-cloud" class="w-16 h-16 text-indigo-400 mb-2 animate-bounce"></i>
+                <p class="text-lg font-bold text-white">ছবি বা ফাইলটি এখানে ছেড়ে দিন</p>
+            </div>
+
+            <div id="chatHeader" class="p-3 sm:p-3.5 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 flex justify-between items-center">
+                <div class="flex items-center gap-2.5 sm:gap-3">
+                    <div id="expertIcon" class="p-2 sm:p-2.5 rounded-xl bg-indigo-500/20 text-indigo-500"></div>
+                    <div>
+                        <h3 id="expertTitle" class="font-bold text-sm sm:text-base text-slate-800 dark:text-slate-100">--</h3>
+                        <p id="expertDesc" class="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400">মডেল: <span class="text-indigo-500 font-mono font-bold">gemini-3.8-flash</span></p>
+                    </div>
+                </div>
+                <span id="apiStatus" class="text-[11px] sm:text-xs px-2.5 py-1 rounded-full bg-red-500/10 text-red-500 border border-red-500/20 shrink-0">
+                    API Key অনুপস্থিত
+                </span>
+            </div>
+
+            <div id="chatContainer" class="flex-1 overflow-y-auto p-3 sm:p-4 space-y-4">
+                <div class="text-center py-6 sm:py-8 space-y-3">
+                    <div class="inline-block p-3.5 sm:p-4 rounded-full bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 mb-1">
+                        <i data-lucide="user-check" class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-500"></i>
+                    </div>
+                    <h4 class="text-base sm:text-lg font-semibold text-slate-800 dark:text-slate-200">শিক্ষকের কাছে প্রশ্ন করো</h4>
+                    <p class="text-slate-500 dark:text-slate-400 text-xs sm:text-sm max-w-md mx-auto">
+                        তোমার পড়ার যেকোনো সমস্যা লেখো বা মুখে বলো। বুঝতে না পারলে শিক্ষক আবার সহজ ভাষায় ব্যাখ্যা করবেন।
+                    </p>
+                </div>
+            </div>
+
+            <div id="imagePreviewContainer" class="px-3 sm:px-4 pt-2 hidden flex items-center gap-2">
+                <div class="relative inline-block">
+                    <img id="imagePreview" class="h-14 w-14 sm:h-16 sm:w-16 object-cover rounded-xl border border-indigo-500" src="" alt="Preview" />
+                    <button id="removeImageBtn" class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full p-0.5 hover:bg-red-500">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                </div>
+                <span class="text-xs text-slate-500 dark:text-slate-400">ছবি সংযুক্ত হয়েছে</span>
+            </div>
+
+            <div class="p-2 sm:p-3 border-t border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 space-y-2">
+                <div id="nextBtnContainer" class="hidden text-center">
+                    <button id="nextChunkBtn" class="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs sm:text-sm font-medium transition-all shadow-lg flex items-center gap-2 mx-auto">
+                        <span>পরবর্তী অংশ শুনুন/দেখুন</span>
+                        <i data-lucide="arrow-right-circle" class="w-4 h-4"></i>
+                    </button>
+                </div>
+
+                <form id="chatForm" class="flex items-center gap-1.5 sm:gap-2 w-full">
+                    <input type="file" id="fileInput" accept="image/*" class="hidden" />
+
+                    <button type="button" id="uploadBtn" class="p-2 sm:p-3 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 rounded-xl transition-all shrink-0" title="ছবি আপলোড">
+                        <i data-lucide="image" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                    </button>
+
+                    <button type="button" id="cameraBtn" class="p-2 sm:p-3 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 rounded-xl transition-all shrink-0" title="ক্যামেরা">
+                        <i data-lucide="camera" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                    </button>
+
+                    <button type="button" id="micBtn" class="relative p-2 sm:p-3 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 rounded-xl transition-all shrink-0" title="ভয়েস ইনপুট">
+                        <i data-lucide="mic" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                        <span id="micPulse" class="hidden absolute inset-0 rounded-xl bg-red-500/20 animate-ping"></span>
+                    </button>
+
+                    <input type="text" id="userInput" placeholder="শিক্ষককে প্রশ্ন করো..." class="flex-1 min-w-0 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+
+                    <button type="submit" id="sendBtn" class="bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white rounded-xl flex items-center justify-center transition-all shadow-md hover:shadow-lg p-2.5 sm:p-3 shrink-0">
+                        <i data-lucide="send" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                    </button>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <footer class="mt-auto py-3 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-center text-xs text-slate-500">
+        © ২০২৬ কমলপুর ইউনিয়ন ডিজিটাল সেন্টার —ভার্সন ২.০
+    </footer>
+
+    <div id="memoryModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl max-w-md w-full p-5 space-y-4 max-h-[85vh] overflow-y-auto relative shadow-2xl">
+            <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-3">
+                <h3 class="text-base sm:text-lg font-bold flex items-center gap-2 text-slate-800 dark:text-slate-100">
+                    <i data-lucide="sparkles" class="w-5 h-5 text-amber-500"></i> সহজে মনে রাখার টেকনিক
+                </h3>
+                <button onclick="closeMemoryModal()" class="text-slate-400 hover:text-slate-200 p-1">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div id="memoryTipContent" class="text-sm text-slate-700 dark:text-slate-200"></div>
+            <button onclick="getRandomMemoryTip()" class="w-full bg-amber-500 text-black rounded-xl p-2 font-bold">নতুন ট্রিকস</button>
+        </div>
+    </div>
+
+    <div id="cameraModal" class="fixed inset-0 bg-slate-950/90 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-lg w-full p-4 space-y-4 text-center">
+            <button id="closeCameraBtn" class="float-right text-slate-500">✕</button>
+            <h3 class="text-lg font-bold mt-2">খাতার ছবি তোলো</h3>
+            <video id="webcam" autoplay playsinline class="w-full aspect-video bg-black rounded-xl"></video>
+            <canvas id="cameraCanvas" class="hidden"></canvas>
+            <button id="captureBtn" class="bg-indigo-600 text-white rounded-xl px-5 py-2 font-semibold">ছবি স্ক্যান করো</button>
+        </div>
+    </div>
+
+    <div id="settingsModal" class="fixed inset-0 bg-slate-950/80 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 space-y-4">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-bold">Gemini API সেটআপ</h3>
+                <button id="closeSettingsBtn" class="text-slate-500">✕</button>
+            </div>
+
+            <label for="apiKeyInput" class="text-sm font-medium">Gemini API Key</label>
+            <input id="apiKeyInput" type="password" autocomplete="off" placeholder="AIza..." class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3">
+            <p class="text-xs text-amber-500">ব্রাউজারে API key রাখা নিরাপদ নয়; production-এ backend ব্যবহার করুন।</p>
+            <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="text-xs text-indigo-500 underline">Google AI Studio থেকে key নিন</a>
+            <button id="saveApiKey" class="w-full bg-indigo-600 text-white rounded-xl py-2.5 font-semibold">সেভ করুন</button>
+        </div>
+    </div>
+
 <script>
-const GEMINI_MODEL='gemini-3.8-flash';
-// Older Flash models are retired for new users. Use the current Flash-Lite model as fallback.
-const FALLBACK_MODELS=['gemini-3.5-flash-lite'];
-const modules=[{id:'physics',name:'পদার্থবিজ্ঞান শিক্ষক',icon:'atom',prompt:'তুমি স্নেহশীল ও অভিজ্ঞ পদার্থবিজ্ঞানের শিক্ষক।'},{id:'chemistry',name:'রসায়ন বিজ্ঞান শিক্ষক',icon:'flask-conical',prompt:'তুমি স্নেহশীল ও অভিজ্ঞ রসায়নের শিক্ষক।'},{id:'biology',name:'জীববিজ্ঞান শিক্ষক',icon:'dna',prompt:'তুমি স্নেহশীল ও অভিজ্ঞ জীববিজ্ঞানের শিক্ষক।'},{id:'math',name:'উচ্চতর গণিত শিক্ষক',icon:'calculator',prompt:'তুমি ধৈর্যশীল উচ্চতর গণিত শিক্ষক।'},{id:'english',name:'ইংরেজি ভাষা শিক্ষক',icon:'languages',prompt:'তুমি স্নেহশীল ইংরেজি শিক্ষক।'},{id:'ict',name:'তথ্য ও প্রযুক্তি (ICT)',icon:'laptop',prompt:'তুমি তথ্য ও যোগাযোগ প্রযুক্তির শিক্ষক।'},{id:'assistant',name:'সাধারণ গাইড টিউটর',icon:'bot',prompt:'তুমি একজন অভিজ্ঞ গৃহশিক্ষক।'}];
-const tips=[['রসায়ন','নিষ্ক্রিয় গ্যাস','He, Ne, Ar, Kr, Xe, Rn — হে লিনা আর করিম যাবে রামপুর'],['পদার্থবিজ্ঞান','মৌলিক বল','মহাকর্ষ < দুর্বল নিউক্লীয় < তড়িৎচৌম্বক < তীব্র নিউক্লীয়'],['গণিত','ত্রিকোণমিতি','Sinθ = লম্ব/অতিভুজ; Cosθ = ভূমি/অতিভুজ; Tanθ = লম্ব/ভূমি'],['ইংরেজি','FANBOYS','For, And, Nor, But, Or, Yet, So'],['ICT','হেক্সাডেসিমেল','A=10, B=11, C=12, D=13, E=14, F=15']];
-let apiKey=localStorage.getItem('gemini_api_key')||'',currentModule=modules[0],imageData=null,cameraStream=null,lastUserMessage='';
-const $=id=>document.getElementById(id),moduleList=$('moduleList'),chatContainer=$('chatContainer'),apiStatus=$('apiStatus'),settingsModal=$('settingsModal'),apiKeyInput=$('apiKeyInput'),nextBtnContainer=$('nextBtnContainer');
-function showModal(el){el.classList.remove('hidden');el.classList.add('flex')}function hideModal(el){el.classList.add('hidden');el.classList.remove('flex')}
-function updateApiStatus(){apiStatus.textContent=apiKey?'Gemini API সংযুক্ত':'API Key অনুপস্থিত';apiStatus.className=`text-xs px-2.5 py-1 rounded-full ${apiKey?'bg-emerald-500/10 text-emerald-500':'bg-red-500/10 text-red-500'}`}
-function renderModules(){moduleList.innerHTML=modules.map(m=>`<button onclick="switchModule('${m.id}')" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm ${currentModule.id===m.id?'bg-indigo-600 text-white':'text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800'}"><i data-lucide="${m.icon}" class="w-4 h-4"></i>${m.name}</button>`).join('');lucide.createIcons()}
-window.switchModule=id=>{currentModule=modules.find(m=>m.id===id)||modules[0];$('expertTitle').textContent=currentModule.name;renderModules()};
-window.openMemoryModal=()=>{getRandomMemoryTip();showModal($('memoryModal'))};window.closeMemoryModal=()=>hideModal($('memoryModal'));window.getRandomMemoryTip=()=>{const t=tips[Math.floor(Math.random()*tips.length)];$('memoryTipContent').textContent=`${t[0]} — ${t[1]}: ${t[2]}`};
-$('themeToggleBtn').onclick=()=>document.documentElement.classList.toggle('dark');$('settingsBtn').onclick=()=>{apiKeyInput.value=apiKey;showModal(settingsModal)};$('closeSettingsBtn').onclick=()=>hideModal(settingsModal);$('saveApiKey').onclick=()=>{apiKey=apiKeyInput.value.trim();if(apiKey)localStorage.setItem('gemini_api_key',apiKey);else localStorage.removeItem('gemini_api_key');updateApiStatus();hideModal(settingsModal)};
-let timeLeft=1500,timer=null;function displayTime(){$('timerDisplay').textContent=`${String(Math.floor(timeLeft/60)).padStart(2,'0')}:${String(timeLeft%60).padStart(2,'0')}`}window.toggleTimer=()=>{if(timer){clearInterval(timer);timer=null;$('timerToggleBtn').textContent='শুরু করুন'}else{$('timerToggleBtn').textContent='থামুন';timer=setInterval(()=>{if(timeLeft>0){timeLeft--;displayTime()}else{clearInterval(timer);timer=null;alert('২৫ মিনিট পড়া শেষ! ৫ মিনিট বিরতি নাও।');window.resetTimer()}},1000)}};window.resetTimer=()=>{clearInterval(timer);timer=null;timeLeft=1500;displayTime();$('timerToggleBtn').textContent='শুরু করুন'};
-function speakTeacherVoice(text){if(!('speechSynthesis'in window))return;window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='bn-BD';u.rate=.92;window.speechSynthesis.speak(u)}
-function appendMessage(role,text,img=null){const isUser=role==='user',el=document.createElement('div');el.className=`flex ${isUser?'justify-end':'justify-start'}`;const bubble=document.createElement('div');bubble.className=`max-w-[85%] p-4 rounded-2xl whitespace-pre-wrap text-sm ${isUser?'bg-indigo-600 text-white':'bg-slate-100 dark:bg-slate-800'}`;if(img){const image=document.createElement('img');image.src=img;image.className='max-h-48 rounded-lg mb-2';bubble.appendChild(image)}const msg=document.createElement('div');msg.textContent=text;bubble.appendChild(msg);if(!isUser){const voice=document.createElement('button');voice.textContent='🔊 শিক্ষকের গলায় শোনো';voice.className='block mt-3 text-indigo-500';voice.onclick=()=>speakTeacherVoice(text);bubble.appendChild(voice)}el.appendChild(bubble);chatContainer.appendChild(el);chatContainer.scrollTop=chatContainer.scrollHeight;if(!isUser&&$('autoVoiceToggle').checked)speakTeacherVoice(text)}
-$('uploadBtn').onclick=()=>$('fileInput').click();$('fileInput').onchange=e=>{const f=e.target.files[0];if(!f)return;if(!f.type.startsWith('image/'))return alert('শুধু ছবি আপলোড করুন।');const r=new FileReader();r.onload=ev=>{imageData=ev.target.result;$('imagePreview').src=imageData;$('imagePreviewContainer').classList.remove('hidden');$('imagePreviewContainer').classList.add('flex')};r.readAsDataURL(f)};$('removeImageBtn').onclick=()=>{imageData=null;$('imagePreview').src='';$('fileInput').value='';$('imagePreviewContainer').classList.add('hidden');$('imagePreviewContainer').classList.remove('flex')};
-$('cameraBtn').onclick=async()=>{try{cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});$('webcam').srcObject=cameraStream;showModal($('cameraModal'))}catch(e){alert('ক্যামেরা চালু করা সম্ভব হয়নি।')}};function stopCamera(){if(cameraStream){cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null}hideModal($('cameraModal'))}$('closeCameraBtn').onclick=stopCamera;$('captureBtn').onclick=()=>{const v=$('webcam'),c=$('cameraCanvas');c.width=v.videoWidth;c.height=v.videoHeight;c.getContext('2d').drawImage(v,0,0,c.width,c.height);imageData=c.toDataURL('image/png');$('imagePreview').src=imageData;$('imagePreviewContainer').classList.remove('hidden');$('imagePreviewContainer').classList.add('flex');stopCamera()};
-let recognition=null;if('SpeechRecognition'in window||'webkitSpeechRecognition'in window){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;recognition=new SR();recognition.lang='bn-BD';$('micBtn').onclick=()=>recognition.start();recognition.onresult=e=>{$('userInput').value=e.results[0][0].transcript}}else $('micBtn').onclick=()=>alert('এই ব্রাউজারে voice input সমর্থিত নয়।');
-async function requestModel(model,systemPrompt,parts){
- const url=`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
- for(let attempt=0;attempt<2;attempt++){
-  const controller=new AbortController();const timeoutId=setTimeout(()=>controller.abort(),10000);let response,data={};
-  try{response=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},signal:controller.signal,body:JSON.stringify({systemInstruction:{parts:[{text:systemPrompt}]},contents:[{role:'user',parts}],generationConfig:{temperature:0.6,maxOutputTokens:900}})});try{data=await response.json()}catch{data={}}}
-  catch(networkError){clearTimeout(timeoutId);if(attempt===1)throw networkError;await new Promise(resolve=>setTimeout(resolve,250));continue}
-  clearTimeout(timeoutId);
-  if(response.ok){const candidate=data.candidates?.[0],text=candidate?.content?.parts?.map(p=>p.text||'').join('').trim();if(!text)throw new Error('মডেল কোনো উত্তর ফেরত দেয়নি।');return{text,finishReason:candidate.finishReason,model}}
-  const error=new Error(data.error?.message||`HTTP ${response.status}`);error.status=response.status;
-  if([401,403].includes(response.status)||![408,429,500,502,503,504].includes(response.status)||attempt===1)throw error;
-  const retryAfter=Number(response.headers.get('Retry-After'));await new Promise(resolve=>setTimeout(resolve,retryAfter>0?Math.min(retryAfter*1000,1000):350));
- }
- throw new Error('বারবার চেষ্টা করেও সাড়া পাওয়া যায়নি।');
-}
-async function fetchAIResponse(query,img=null,continuation=false){if(!apiKey){alert('সেটিংস থেকে Gemini API Key সেভ করুন।');showModal(settingsModal);return}nextBtnContainer.classList.add('hidden');const load=document.createElement('div');load.className='text-slate-400';load.textContent='শিক্ষক উত্তর তৈরি করছেন…';chatContainer.appendChild(load);chatContainer.scrollTop=chatContainer.scrollHeight;
-const systemPrompt=`${currentModule.prompt}\nসহজ বাংলায়, বাস্তব উদাহরণসহ সংক্ষেপে বুঝিয়ে বলো এবং শেষে জিজ্ঞেস করো শিক্ষার্থী বুঝেছে কি না।`;const parts=[];if(img){const match=img.match(/^data:(image\/[\w.+-]+);base64,(.+)$/);if(!match){load.remove();appendMessage('assistant','ছবির ফরম্যাটটি সঠিক নয়।');return}parts.push({inlineData:{mimeType:match[1],data:match[2]}})}parts.push({text:continuation?`আগের উত্তরের পরবর্তী অংশ চালিয়ে যাও: ${lastUserMessage}`:(query||'এই ছবিটি বুঝিয়ে দাও।')});
-const models=[GEMINI_MODEL,...FALLBACK_MODELS];let errors=[];for(let i=0;i<models.length;i++){try{const result=await requestModel(models[i],systemPrompt,parts);load.remove();if(i>0)appendMessage('assistant',`মূল মডেল সাড়া দেয়নি; fallback ${result.model} দিয়ে উত্তর দেওয়া হলো।`);appendMessage('assistant',result.text);if(result.finishReason==='MAX_TOKENS'){lastUserMessage=result.text.slice(-500);nextBtnContainer.classList.remove('hidden')}return}catch(error){errors.push(`${models[i]}: ${error.message}`);if(error.status===401||error.status===403)break}}
-load.remove();appendMessage('assistant',`দুঃখিত, সব মডেল চেষ্টা করেও উত্তর পাওয়া যায়নি। কিছুক্ষণ পরে আবার চেষ্টা করুন। ${errors.join(' | ')}`)}
-$('chatForm').onsubmit=e=>{e.preventDefault();const q=$('userInput').value.trim(),img=imageData;if(!q&&!img)return;appendMessage('user',q||'ছবি পাঠানো হয়েছে',img);$('userInput').value='';$('removeImageBtn').click();fetchAIResponse(q,img)};$('nextChunkBtn').onclick=()=>fetchAIResponse('',null,true);
-mermaid.initialize({startOnLoad:false,theme:'dark'});if(apiKey)apiKeyInput.value=apiKey;updateApiStatus();renderModules();window.switchModule('physics');lucide.createIcons();
-</script></body></html>
+    const GEMINI_MODEL = 'gemini-3.8-flash';
+    const FALLBACK_MODELS = ['gemini-3.5-flash-lite', 'gemini-1.5-flash'];
+
+    const modules = [
+        { id: 'physics', name: 'পদার্থবিজ্ঞান শিক্ষক', icon: 'atom', prompt: 'তুমি স্নেহশীল ও অভিজ্ঞ পদার্থবিজ্ঞান শিক্ষক।' },
+        { id: 'chemistry', name: 'রসায়ন বিজ্ঞান শিক্ষক', icon: 'flask-conical', prompt: 'তুমি স্নেহশীল ও অভিজ্ঞ রসায়নের শিক্ষক।' },
+        { id: 'biology', name: 'জীববিজ্ঞান শিক্ষক', icon: 'dna', prompt: 'তুমি স্নেহশীল ও অভিজ্ঞ জীববিজ্ঞান শিক্ষক।' },
+        { id: 'math', name: 'উচ্চতর গণিত শিক্ষক', icon: 'calculator', prompt: 'তুমি ধৈর্যশীল উচ্চতর গণিত শিক্ষক।' },
+        { id: 'english', name: 'ইংরেজি ভাষা শিক্ষক', icon: 'languages', prompt: 'তুমি স্নেহশীল ইংরেজি শিক্ষক।' },
+        { id: 'ict', name: 'তথ্য ও প্রযুক্তি (ICT)', icon: 'laptop', prompt: 'তুমি তথ্য ও যোগাযোগ প্রযুক্তির শিক্ষক।' },
+        { id: 'assistant', name: 'সাধারণ গাইড টিউটর', icon: 'bot', prompt: 'তুমি একজন অভিজ্ঞ গৃহশিক্ষক।' }
+    ];
+
+    const tips = [
+        ['রসায়ন', 'নিষ্ক্রিয় গ্যাস', 'He, Ne, Ar, Kr, Xe, Rn — হে লিনা আর করিম যাবে রামপুর'],
+        ['পদার্থবিজ্ঞান', 'মৌলিক বল', 'মহাকর্ষ < দুর্বল নিউক্লীয় < তড়িৎচৌম্বক < তীব্র নিউক্লীয়'],
+        ['গণিত', 'ত্রিকোণমিতি', 'Sinθ = লম্ব/অতিভুজ; Cosθ = ভূমি/অতিভুজ; Tanθ = লম্ব/ভূমি'],
+        ['ইংরেজি', 'FANBOYS', 'For, And, Nor, But, Or, Yet, So'],
+        ['ICT', 'হেক্সাডেসিমেল', 'A=10, B=11, C=12, D=13, E=14, F=15']
+    ];
+
+    let apiKey = localStorage.getItem('gemini_api_key') || '';
+    let currentModule = modules[0];
+    let imageData = null;
+    let cameraStream = null;
+    let lastUserMessage = '';
+
+    const $ = (id) => document.getElementById(id);
+    const moduleList = $('moduleList');
+    const chatContainer = $('chatContainer');
+    const apiStatus = $('apiStatus');
+    const settingsModal = $('settingsModal');
+    const apiKeyInput = $('apiKeyInput');
+    const nextBtnContainer = $('nextBtnContainer');
+
+    function showModal(el) {
+        el.classList.remove('hidden');
+        el.classList.add('flex');
+    }
+
+    function hideModal(el) {
+        el.classList.add('hidden');
+        el.classList.remove('flex');
+    }
+
+    function updateApiStatus() {
+        apiStatus.textContent = apiKey ? 'Gemini API সংযুক্ত' : 'API Key অনুপস্থিত';
+        apiStatus.className = `text-[11px] sm:text-xs px-2.5 py-1 rounded-full border shrink-0 ${apiKey ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : 'bg-red-500/10 text-red-500 border-red-500/20'}`;
+    }
+
+    function renderModules() {
+        moduleList.innerHTML = modules.map(m => `
+            <button onclick="switchModule('${m.id}')" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm transition-all ${currentModule.id === m.id ? 'bg-indigo-600 text-white' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800'}">
+                <i data-lucide="${m.icon}" class="w-4 h-4"></i>
+                ${m.name}
+            </button>
+        `).join('');
+        lucide.createIcons();
+    }
+
+    function switchModule(id) {
+        currentModule = modules.find(m => m.id === id) || modules[0];
+        $('expertTitle').textContent = currentModule.name;
+        renderModules();
+    }
+
+    function openMemoryModal() {
+        getRandomMemoryTip();
+        showModal($('memoryModal'));
+    }
+
+    function closeMemoryModal() {
+        hideModal($('memoryModal'));
+    }
+
+    function getRandomMemoryTip() {
+        const t = tips[Math.floor(Math.random() * tips.length)];
+        $('memoryTipContent').textContent = `${t[0]} — ${t[1]}: ${t[2]}`;
+    }
+
+    $('themeToggleBtn').onclick = () => document.documentElement.classList.toggle('dark');
+    $('settingsBtn').onclick = () => {
+        apiKeyInput.value = apiKey;
+        showModal(settingsModal);
+    };
+    $('closeSettingsBtn').onclick = () => hideModal(settingsModal);
+    $('saveApiKey').onclick = () => {
+        apiKey = apiKeyInput.value.trim();
+        if (apiKey) {
+            localStorage.setItem('gemini_api_key', apiKey);
+        } else {
+            localStorage.removeItem('gemini_api_key');
+        }
+        updateApiStatus();
+        hideModal(settingsModal);
+    };
+
+    let timeLeft = 1500;
+    let timer = null;
+
+    function displayTime() {
+        $('timerDisplay').textContent = `${String(Math.floor(timeLeft / 60)).padStart(2, '0')}:${String(timeLeft % 60).padStart(2, '0')}`;
+    }
+
+    window.toggleTimer = () => {
+        if (timer) {
+            clearInterval(timer);
+            timer = null;
+            $('timerToggleBtn').textContent = 'শুরু করুন';
+        } else {
+            $('timerToggleBtn').textContent = 'থামুন';
+            timer = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    displayTime();
+                } else {
+                    clearInterval(timer);
+                    timer = null;
+                    alert('২৫ মিনিট পড়া শেষ! ৫ মিনিট বিরতি নাও।');
+                    window.resetTimer();
+                }
+            }, 1000);
+        }
+    };
+
+    window.resetTimer = () => {
+        clearInterval(timer);
+        timer = null;
+        timeLeft = 1500;
+        displayTime();
+        $('timerToggleBtn').textContent = 'শুরু করুন';
+    };
+
+    function speakTeacherVoice(text) {
+        if (!('speechSynthesis' in window)) return;
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'bn-BD';
+        u.rate = 0.92;
+        window.speechSynthesis.speak(u);
+    }
+
+    function appendMessage(role, text, img = null) {
+        const isUser = role === 'user';
+        const el = document.createElement('div');
+        el.className = `flex ${isUser ? 'justify-end' : 'justify-start'}`;
+
+        const bubble = document.createElement('div');
+        bubble.className = `max-w-[85%] p-4 rounded-2xl whitespace-pre-wrap text-sm ${isUser ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-100'}`;
+
+        if (img) {
+            const image = document.createElement('img');
+            image.src = img;
+            image.className = 'max-h-48 rounded-lg mb-2';
+            bubble.appendChild(image);
+        }
+
+        const msg = document.createElement('div');
+        msg.textContent = text;
+        bubble.appendChild(msg);
+
+        if (!isUser) {
+            const voice = document.createElement('button');
+            voice.textContent = '🔊 শিক্ষকের গলায় শোনো';
+            voice.className = 'block mt-3 text-indigo-500';
+            voice.onclick = () => speakTeacherVoice(text);
+            bubble.appendChild(voice);
+        }
+
+        el.appendChild(bubble);
+        chatContainer.appendChild(el);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+
+        if (!isUser && $('autoVoiceToggle').checked) {
+            speakTeacherVoice(text);
+        }
+    }
+
+    $('uploadBtn').onclick = () => $('fileInput').click();
+
+    $('fileInput').onchange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        if (!file.type.startsWith('image/')) {
+            alert('শুধু ছবি আপলোড করুন।');
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            imageData = ev.target.result;
+            $('imagePreview').src = imageData;
+            $('imagePreviewContainer').classList.remove('hidden');
+            $('imagePreviewContainer').classList.add('flex');
+        };
+        reader.readAsDataURL(file);
+    };
+
+    $('removeImageBtn').onclick = () => {
+        imageData = null;
+        $('imagePreview').src = '';
+        $('fileInput').value = '';
+        $('imagePreviewContainer').classList.add('hidden');
+        $('imagePreviewContainer').classList.remove('flex');
+    };
+
+    $('cameraBtn').onclick = async () => {
+        try {
+            cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+            $('webcam').srcObject = cameraStream;
+            showModal($('cameraModal'));
+        } catch (e) {
+            alert('ক্যামেরা চালু করা সম্ভব হয়নি।');
+        }
+    };
+
+    function stopCamera() {
+        if (cameraStream) {
+            cameraStream.getTracks().forEach(track => track.stop());
+            cameraStream = null;
+        }
+        hideModal($('cameraModal'));
+    }
+
+    $('closeCameraBtn').onclick = stopCamera;
+    $('captureBtn').onclick = () => {
+        const video = $('webcam');
+        const canvas = $('cameraCanvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        imageData = canvas.toDataURL('image/png');
+        $('imagePreview').src = imageData;
+        $('imagePreviewContainer').classList.remove('hidden');
+        $('imagePreviewContainer').classList.add('flex');
+        stopCamera();
+    };
+
+    let recognition = null;
+    if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+        const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SR();
+        recognition.lang = 'bn-BD';
+        $('micBtn').onclick = () => {
+            recognition.start();
+            $('#micPulse').classList.remove('hidden');
+        };
+        recognition.onresult = (e) => {
+            $('userInput').value = e.results[0][0].transcript;
+            $('#micPulse').classList.add('hidden');
+        };
+        recognition.onend = () => $('#micPulse').classList.add('hidden');
+    } else {
+        $('micBtn').onclick = () => alert('এই ব্রাউজারে voice input সমর্থিত নয়।');
+    }
+
+    function extractTextFromResponse(data) {
+        const candidate = data?.candidates?.[0];
+        if (!candidate) return '';
+        return candidate.content?.parts?.map(part => part.text || '').join('').trim() || '';
+    }
+
+    function isOverloadMessage(text) {
+        return /high demand|currently experiencing high demand|429|temporarily|busy|rate limit|capacity/i.test(text || '');
+    }
+
+    async function requestModel(model, systemPrompt, parts) {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+
+        for (let attempt = 0; attempt < 3; attempt++) {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 12000);
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    signal: controller.signal,
+                    body: JSON.stringify({
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        contents: [{ role: 'user', parts }],
+                        generationConfig: {
+                            temperature: 0.6,
+                            topP: 0.9,
+                            maxOutputTokens: 768
+                        }
+                    })
+                });
+
+                clearTimeout(timeoutId);
+
+                const data = await response.json().catch(() => ({}));
+
+                if (response.ok) {
+                    const text = extractTextFromResponse(data);
+                    if (!text) {
+                        throw new Error('মডেল কোনো উত্তর ফেরত দেয়নি।');
+                    }
+                    return { text, model, finishReason: data.candidates?.[0]?.finishReason || 'STOP' };
+                }
+
+                const errorText = data?.error?.message || `HTTP ${response.status}`;
+                const retryable = [408, 429, 500, 502, 503, 504].includes(response.status);
+
+                if (response.status === 401 || response.status === 403) {
+                    throw new Error('Gemini API key ভুল বা এ্যাক্সেস নেই।');
+                }
+
+                if (!retryable || attempt === 2) {
+                    throw new Error(errorText);
+                }
+
+                const waitMs = Math.min(1200 + attempt * 800, 2500);
+                await new Promise(resolve => setTimeout(resolve, waitMs));
+
+            } catch (err) {
+                clearTimeout(timeoutId);
+                if (attempt === 2) {
+                    throw err;
+                }
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+        }
+
+        throw new Error('Gemini থেকে উত্তর পাওয়া যায়নি।');
+    }
+
+    async function fetchAIResponse(query, img = null, continuation = false) {
+        if (!apiKey) {
+            alert('সেটিংস থেকে Gemini API Key সেভ করুন।');
+            showModal(settingsModal);
+            return;
+        }
+
+        nextBtnContainer.classList.add('hidden');
+
+        const loading = document.createElement('div');
+        loading.className = 'text-slate-400 text-sm';
+        loading.textContent = 'শিক্ষক উত্তর তৈরি করছেন…';
+        chatContainer.appendChild(loading);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+
+        const systemPrompt = `${currentModule.prompt}\nসহজ বাংলায়, বাস্তব উদাহরণসহ সংক্ষেপে বুঝিয়ে বলো এবং শেষে জিজ্ঞেস করো শিক্ষার্থী বুঝেছে কি না।`;
+        const parts = [];
+
+        if (img) {
+            const match = img.match(/^data:(image\/[\w.+-]+);base64,(.+)$/);
+            if (!match) {
+                loading.remove();
+                appendMessage('assistant', 'ছবির ফরম্যাটটি সঠিক নয়।');
+                return;
+            }
+            parts.push({ inlineData: { mimeType: match[1], data: match[2] } });
+        }
+
+        parts.push({
+            text: continuation ? `আগের উত্তরের পরবর্তী অংশ চালিয়ে যাও: ${lastUserMessage}` : (query || 'এই ছবিটি বুঝিয়ে দাও।')
+        });
+
+        const models = [GEMINI_MODEL, ...FALLBACK_MODELS];
+        const errors = [];
+
+        for (let i = 0; i < models.length; i++) {
+            try {
+                const result = await requestModel(models[i], systemPrompt, parts);
+                loading.remove();
+
+                if (i > 0) {
+                    appendMessage('assistant', `মূল মডেল সাড়া দেয়নি; fallback ${result.model} দিয়ে উত্তর দেওয়া হলো।`);
+                }
+
+                appendMessage('assistant', result.text);
+
+                if (result.finishReason === 'MAX_TOKENS') {
+                    lastUserMessage = result.text.slice(-500);
+                    nextBtnContainer.classList.remove('hidden');
+                }
+                return;
+            } catch (error) {
+                const msg = error?.message || String(error);
+                errors.push(`${models[i]}: ${msg}`);
+
+                if (msg.includes('API key ভুল') || msg.includes('API key') || /401|403/.test(msg)) {
+                    break;
+                }
+            }
+        }
+
+        loading.remove();
+
+        const overloadText = errors.some(err => isOverloadMessage(err))
+            ? 'Gemini সার্ভার এই মুহূর্তে ব্যস্ত আছে। ১০–৩০ সেকেন্ড পরে আবার চেষ্টা করুন।'
+            : 'দুঃখিত, সব মডেল চেষ্টা করেও উত্তর পাওয়া যায়নি। কিছুক্ষণ পরে আবার চেষ্টা করুন।';
+
+        appendMessage('assistant', `${overloadText} ${errors.join(' | ')}`);
+    }
+
+    $('chatForm').onsubmit = (e) => {
+        e.preventDefault();
+        const q = $('userInput').value.trim();
+        const img = imageData;
+
+        if (!q && !img) return;
+
+        appendMessage('user', q || 'ছবি পাঠানো হয়েছে', img);
+        $('userInput').value = '';
+        $('removeImageBtn').click();
+        fetchAIResponse(q, img);
+    };
+
+    $('nextChunkBtn').onclick = () => fetchAIResponse('', null, true);
+
+    mermaid.initialize({ startOnLoad: false, theme: 'dark' });
+    if (apiKey) apiKeyInput.value = apiKey;
+    updateApiStatus();
+    renderModules();
+    switchModule('physics');
+    lucide.createIcons();
+</script>
+</body>
+</html>
