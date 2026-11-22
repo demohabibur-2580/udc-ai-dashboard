@@ -5,63 +5,76 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>UDC AI Dashboard - ১০ং কমলপুর ইউনিয়ন ডিজিটাল সেন্টার</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>body{background:#020617;color:#e2e8f0;font:14px sans-serif;padding:2rem}#bootError{color:#f87171}</style>
+  <style>body{background:#020617;color:#e2e8f0;font:14px sans-serif;padding:2rem}#bootError{color:#f87171;white-space:pre-wrap}</style>
 </head>
 <body>
   <p id="bootStatus">ড্যাশবোর্ড লোড হচ্ছে…</p>
   <p id="bootError" hidden></p>
   <script>
     (async function loadDashboard() {
-      const status = document.getElementById('bootStatus');
-      const errorBox = document.getElementById('bootError');
+      var status = document.getElementById('bootStatus');
+      var errorBox = document.getElementById('bootError');
       try {
-        const sourceUrl = 'https://raw.githubusercontent.com/demohabibur-2580/udc-ai-dashboard/d36b5bb5480c2fd2ece52b4d0f6ccf07082d1612/index.html';
-        const response = await fetch(sourceUrl, { cache: 'no-store' });
+        var sourceUrl = 'https://raw.githubusercontent.com/demohabibur-2580/udc-ai-dashboard/d36b5bb5480c2fd2ece52b4d0f6ccf07082d1612/index.html';
+        var response = await fetch(sourceUrl, { cache: 'no-store' });
         if (!response.ok) throw new Error('মূল ড্যাশবোর্ড লোড হয়নি (HTTP ' + response.status + ')');
-        let source = await response.text();
+        var source = await response.text();
 
-        const selector = [
+        var selector = [
           '<section class="space-y-3 rounded-xl border border-slate-800 bg-slate-950/50 p-4">',
           '<h3 class="text-sm font-bold text-slate-200">জন্ম-সংক্রান্ত আবেদন নির্বাচন করুন</h3>',
           '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">',
-          '<button type="button" id="birthRegistrationMode" aria-pressed="true" onclick="setBirthWorkflow(\'registration\')" class="rounded-xl border border-brand-500/50 bg-brand-500/10 px-4 py-3 text-left text-sm font-semibold text-brand-300">১. জন্ম নিবন্ধনের আবেদন</button>',
-          '<button type="button" id="birthCorrectionMode" aria-pressed="false" onclick="setBirthWorkflow(\'correction\')" class="rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-left text-sm font-semibold text-slate-300">২. জন্ম তথ্য সংশোধনের আবেদন</button>',
+          '<button type="button" id="birthRegistrationMode" aria-pressed="true" onclick="setBirthWorkflow(\'registration\')" class="rounded-xl border border-brand-500/50 bg-brand-500/10 px-4 py-3 text-left text-sm font-semibold text-brand-300 hover:bg-brand-500/20">১. জন্ম নিবন্ধনের আবেদন</button>',
+          '<button type="button" id="birthCorrectionMode" aria-pressed="false" onclick="setBirthWorkflow(\'correction\')" class="rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-left text-sm font-semibold text-slate-300 hover:border-brand-500/50">২. জন্ম তথ্য সংশোধনের আবেদন</button>',
           '</div><p id="birthWorkflowHint" class="text-xs leading-relaxed text-slate-400"></p></section>'
         ].join('');
-        const uploadGrid = '<div class="grid grid-cols-1 md:grid-cols-3 gap-3">';
-        if (!source.includes(uploadGrid)) throw new Error('OCR আপলোড বক্স পাওয়া যায়নি');
+        var uploadGrid = '<div class="grid grid-cols-1 md:grid-cols-3 gap-3">';
+        if (source.indexOf(uploadGrid) < 0) throw new Error('OCR আপলোড বক্স পাওয়া যায়নি');
         source = source.replace(uploadGrid, selector + uploadGrid);
 
-        const promptMarker = 'content: systemPrompts[activeTabId - 1]';
-        if (!source.includes(promptMarker)) throw new Error('OCR system prompt-এর স্থান পাওয়া যায়নি');
+        var promptMarker = 'content: systemPrompts[activeTabId - 1]';
+        if (source.indexOf(promptMarker) < 0) throw new Error('OCR system prompt-এর স্থান পাওয়া যায়নি');
         source = source.replace(promptMarker, 'content: activeTabId === 4 ? getBirthWorkflowPrompt() : systemPrompts[activeTabId - 1]');
 
-        const categoryMarker = 'const categoryLabels = ["নিজ তথ্য/সনদ", "পিতার নথি", "মাতার/অন্যান্য নথি"];';
-        if (!source.includes(categoryMarker)) throw new Error('OCR category labels পাওয়া যায়নি');
+        var categoryMarker = 'const categoryLabels = ["নিজ তথ্য/সনদ", "পিতার নথি", "মাতার/অন্যান্য নথি"];';
+        if (source.indexOf(categoryMarker) < 0) throw new Error('OCR category labels পাওয়া যায়নি');
         source = source.replace(categoryMarker, 'const categoryLabels = getBirthWorkflowLabels();');
 
-        const closeScript = '<' + '/script>';
-        const workflowScript = [
+        var workflowScript = [
           '<script>',
           'var birthWorkflow = "registration";',
-          'function getBirthWorkflowLabels(){return birthWorkflow === "registration" ? ["নিজের টিকা/EPI কার্ড","পিতার জন্ম নিবন্ধন কার্ড","মাতার জন্ম নিবন্ধন কার্ড"] : ["ব্যক্তির NID ও নিজ জন্ম নিবন্ধন","পিতার NID/ব্যক্তির সার্টিফিকেট","মাতার NID/ব্যক্তির সার্টিফিকেট"];}',
+          'function getBirthWorkflowLabels(){return birthWorkflow === "registration" ? ["নিজের টিকা/EPI কার্ড","পিতার জন্ম নিবন্ধন কার্ড","মাতার জন্ম নিবন্ধন কার্ড"] : ["ব্যক্তির NID ও নিজ জন্ম নিবন্ধন","পিতার NID/ব্যক্তির সার্টিফিকেট","মাতার NID/ব্যক্তির সার্টিফিকেট"]}',
           'function getBirthWorkflowPrompt(){',
-          'var common=["নথির লেখা হুবহু পড়ুন। কোনো তথ্য অনুমান বা বানিয়ে লিখবেন না; অস্পষ্ট/অনুপস্থিত হলে \"পাওয়া যায়নি\" লিখুন। নথির উৎস উল্লেখ করুন। তারিখ ইংরেজি অঙ্কে DD/MM/YYYY লিখুন।", "তারিখ/নম্বরের অস্পষ্ট অঙ্ক যাচাই প্রয়োজন হিসেবে চিহ্নিত করুন।", "গ্রাম/ঠিকানার তথ্য নথিতে না থাকলে ফাঁকা/পাওয়া যায়নি লিখুন।"];',
-          'if(birthWorkflow === "registration") return ["আপনি জন্ম নিবন্ধনের আবেদন-সহায়ক OCR. ","বক্স ১: টিকা/EPI কার্ড থেকে միայն আবেদনকারীর বাংলা নাম নিন. ","Այդ বাংলা নামের ইংরেজি ঘরে প্রচলিত/স্বাভাবিক ইংরেজি বানান লিখুন; এটি অনুমিত হলে স্পষ্টভাবে ‘প্রচলিত বানান (অনুমিত)’ বলুন, নথিতে লেখা বলে দাবি করবেন না.","বক্স ২: পিতার জন্ম নিবন্ধন কার্ড থেকে পিতার BRN, জন্মতারিখ DD/MM/YYYY, পিতার বাংলা ও কার্ডে লেখা ইংরেজি নাম নিন.","বক্স ৩: মাতার জন্ম নিবন্ধন কার্ড থেকে মাতার BRN, জন্মতারিখ DD/MM/YYYY, মাতার বাংলা ও কার্ডে লেখা ইংরেজি নাম নিন.","Эцэг эхийн төрсөн огноо/дугаарыг өргөдөл гаргагчийн мэдээлэл гэж бүү андуур.",common.join("\\n"),"Хариуг дараах талбаруудаар гарга: ","- আবেদন ধরন: জন্ম নিবন্ধনের আবেদন","- মিল/সতর্কতা: ...","- নাম (বাংলা): ...","- নাম (ইংরেজি; প্রচলিত বানান): ...","- পিতার নাম (বাংলা): ...","- পিতার নাম (ইংরেজি): ...","- পিতার জন্ম নিবন্ধন নম্বর: ...","- পিতার জন্ম তারিখ (DD/MM/YYYY): ...","- মাতার নাম (বাংলা): ...","- মাতার নাম (ইংরেজি): ...","- মাতার জন্ম নিবন্ধন নম্বর: ...","- মাতার জন্ম তারিখ (DD/MM/YYYY): ...","- জন্ম তারিখ/NID/BRN: ...","- গ্রাম (বাংলা): ...","- গ্রাম (ইংরেজি): ...","- ডাকঘর ও উপজেলা (বাংলা): ...","- ডাকঘর ও উপজেলা (ইংরেজি): ..."].join("\\n");',
-          'return ["আপনি জন্ম তথ্য সংশোধনের আবেদনের নথি OCR সহকারী.","বক্স ১-এ ব্যক্তির NID ও তার নিজ জন্ম নিবন্ধন কার্ড থাকবে: ব্যক্তির নাম/পরিচয়/ঠিকানা এবং পিতা-মাতার বাংলা নাম NID থেকে নিন. জন্ম নিবন্ধন থেকে কেবল ব্যক্তির জন্মতারিখ DD/MM/YYYY এবং BRN নিন.","বক্স ২: পিতার NID অথবা ব্যক্তির নিজ সার্টিফিকেট. বাংলা পিতার নাম ব্যক্তির NID থেকে; ইংরেজি নাম বক্স ২-এর পিতার NID বা সার্টিফিকেট থেকে, উৎস উল্লেখ করে নিন.","বক্স ৩: মাতার NID অথবা ব্যক্তির নিজ সার্টিফিকেট. বাংলা মাতার নাম ব্যক্তির NID থেকে; ইংরেজি নাম বক্স ৩-এর মাতার NID বা সার্টিফিকেট থেকে, উৎস উল্লেখ করে নিন.","তথ্যের অমিল থাকলে দুই নথির পাঠ আলাদা করে জানান; নিজে থেকে কোনোটি বেছে নেবেন না.",common.join("\\n"),"নিচের ফরম্যাটে দিন:","- আবেদন ধরন: জন্ম তথ্য সংশোধনের আবেদন","- মিল/গরমিল বিশ্লেষণ: ...","- ব্যক্তির নাম (বাংলা): ...","- ব্যক্তির নাম (ইংরেজি): ...","- NID নম্বর: ...","- জন্ম তারিখ (DD/MM/YYYY; জন্ম নিবন্ধন থেকে): ...","- জন্ম নিবন্ধন নম্বর (BRN): ...","- পিতার নাম (বাংলা; ব্যক্তির NID থেকে): ...","- পিতার নাম (ইংরেজি; উৎস উল্লেখ করুন): ...","- মাতার নাম (বাংলা; ব্যক্তির NID থেকে): ...","- মাতার নাম (ইংরেজি; উৎস উল্লেখ করুন): ...","- ঠিকানা (বাংলা): ...","- ঠিকানা (ইংরেজি): ...","- অস্পষ্ট/যাচাই প্রয়োজন: ..."].join("\\n");',
+          'var common=" নথির লেখা হুবহু পড়ুন। অনুমান করবেন না; অস্পষ্ট বা অনুপস্থিত হলে পাওয়া যায়নি লিখুন। নথির উৎস উল্লেখ করুন। তারিখ ইংরেজি অঙ্কে DD/MM/YYYY লিখুন। পরস্পরবিরোধী তথ্য আলাদা করে জানান। নিচের ফরম্যাটে ফল দিন: নাম (বাংলা): ...; নাম (ইংরেজি): ...; পিতা/স্বামীর নাম (বাংলা): ...; পিতা/স্বামীর নাম (ইংরেজি): ...; মাতা (বাংলা): ...; মাতা (ইংরেজি): ...; জন্ম তারিখ/NID/BRN: ...; গ্রাম (বাংলা): ...; গ্রাম (ইংরেজি): ...; ডাকঘর ও উপজেলা (বাংলা): ...; ডাকঘর ও উপজেলা (ইংরেজি): ...; মিল/গরমিল ও যাচাই প্রয়োজন: ...";',
+          'if(birthWorkflow === "registration") return "আপনি জন্ম নিবন্ধন আবেদনের নথি OCR সহকারী। বক্স ১ টিকা/EPI কার্ড: শুধু আবেদনকারীর বাংলা নাম নিন; ইংরেজি নাম বাংলার প্রচলিত বানান অনুযায়ী দিন এবং বানানটি অনুমান হলে তা জানান। বক্স ২ পিতার জন্ম নিবন্ধন কার্ড: শুধু পিতার BRN, জন্মতারিখ, বাংলা ও ইংরেজি নাম নিন। বক্স ৩ মাতার জন্ম নিবন্ধন কার্ড: শুধু মাতার BRN, জন্মতারিখ, বাংলা ও ইংরেজি নাম নিন। বাবা-মায়ের জন্মতারিখ বা BRN-কে আবেদনকারীর তথ্য বলবেন না।" + common;',
+          'return "আপনি জন্ম তথ্য সংশোধনের নথি OCR সহকারী। বক্স ১-এ ব্যক্তির NID ও তার জন্ম নিবন্ধন কার্ড: ব্যক্তির পরিচয় ও অন্যান্য তথ্য NID থেকে নিন; জন্ম নিবন্ধন থেকে শুধু ব্যক্তির জন্মতারিখ ও BRN নিন। বক্স ২-এ পিতার NID অথবা ব্যক্তির সার্টিফিকেট: পিতার বাংলা নাম ব্যক্তির NID থেকে; ইংরেজি নাম আপলোডকৃত পিতার NID বা সার্টিফিকেট থেকে নিন এবং উৎস লিখুন। বক্স ৩-এ মাতার NID অথবা ব্যক্তির সার্টিফিকেট: মাতার বাংলা নাম ব্যক্তির NID থেকে; ইংরেজি নাম আপলোডকৃত মাতার NID বা সার্টিফিকেট থেকে নিন এবং উৎস লিখুন।" + common;',
           '}',
-          'function setBirthWorkflow(mode){var next=mode === "correction" ? "correction" : "registration";var count=[1,2,3].reduce(function(sum,b){return sum+module4Files[b].length;},0);if(next !== birthWorkflow && count && !confirm("আবেদনের ধরন পাল্টালে আপলোড করা ফাইল মুছে যাবে। চালিয়ে যাবেন?"))return;if(next !== birthWorkflow){[1,2,3].forEach(function(b){module4Files[b]=[];renderFileList(b);document.getElementById("imageFileInput"+b).value="";});}birthWorkflow=next;var reg=next === "registration";var a=document.getElementById("birthRegistrationMode"),c=document.getElementById("birthCorrectionMode");a.setAttribute("aria-pressed",String(reg));c.setAttribute("aria-pressed",String(!reg));a.className=reg?"rounded-xl border border-brand-500/50 bg-brand-500/10 px-4 py-3 text-left text-sm font-semibold text-brand-300":"rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-left text-sm font-semibold text-slate-300";c.className=!reg?"rounded-xl border border-brand-500/50 bg-brand-500/10 px-4 py-3 text-left text-sm font-semibold text-brand-300":"rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-left text-sm font-semibold text-slate-300";var items=reg?[["১. নিজের টিকা কার্ড / EPI কার্ড","শুধু আবেদনকারীর বাংলা নাম; ইংরেজিতে প্রচলিত বানান।"],["২. পিতার জন্ম নিবন্ধন কার্ড","BRN, জন্মতারিখ (DD/MM/YYYY), পিতার বাংলা ও ইংরেজি নাম।"],["৩. মাতার জন্ম নিবন্ধন কার্ড","BRN, জন্মতারিখ (DD/MM/YYYY), মাতার বাংলা ও ইংরেজি নাম।"]]:[["১. ব্যক্তির NID + নিজ জন্ম নিবন্ধন","ব্যক্তির তথ্য NID থেকে; জন্ম নিবন্ধন থেকে শুধু জন্মতারিখ ও BRN।"],["২. পিতার NID / ব্যক্তির সার্টিফিকেট","ব্যক্তির NID থেকে পিতার বাংলা নাম; NID/সার্টিফিকেট থেকে ইংরেজি নাম।"],["৩. মাতার NID / ব্যক্তির সার্টিফিকেট","ব্যক্তির NID থেকে মাতার বাংলা নাম; NID/সার্টিফিকেট থেকে ইংরেজি নাম।"]];items.forEach(function(item,i){var ps=document.getElementById("dropZone"+(i+1)).querySelectorAll("p");ps[0].textContent=item[0];ps[1].textContent=item[1];});document.getElementById("birthWorkflowHint").textContent=reg?"প্রতিটি বক্সে সংশ্লিষ্ট নথির ছবি দিন। পিতা-মাতার BRN/জন্মতারিখকে আবেদনকারীর তথ্য হিসেবে ধরবেন না।":"বক্স ১-এ ব্যক্তির NID ও জন্ম নিবন্ধন—দুটি/একাধিক ছবি দিন। বক্স ২ ও ৩-এ পিতা/মাতার NID অথবা ব্যক্তির সার্টিফিকেট দিন.";}',
-          'document.addEventListener("DOMContentLoaded",function(){setBirthWorkflow("registration");});',
-          closeScript
-        ].join('\\n');
-        source = source.replace('</body>', workflowScript + '\\n</body>');
+          'function setBirthWorkflow(mode){',
+          'var next=mode === "correction" ? "correction" : "registration";',
+          'var count=[1,2,3].reduce(function(sum,b){return sum+module4Files[b].length},0);',
+          'if(next!==birthWorkflow&&count>0){if(!confirm("আবেদনের ধরন বদলালে আগের আপলোড করা নথি মুছে যাবে। চালিয়ে যাবেন?"))return;[1,2,3].forEach(function(b){module4Files[b]=[];renderFileList(b);document.getElementById("imageFileInput"+b).value=""})}',
+          'birthWorkflow=next;var reg=next==="registration";',
+          'var regBtn=document.getElementById("birthRegistrationMode"),corBtn=document.getElementById("birthCorrectionMode");',
+          'regBtn.setAttribute("aria-pressed",String(reg));corBtn.setAttribute("aria-pressed",String(!reg));',
+          'regBtn.className=reg?"rounded-xl border border-brand-500/50 bg-brand-500/10 px-4 py-3 text-left text-sm font-semibold text-brand-300 hover:bg-brand-500/20":"rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-left text-sm font-semibold text-slate-300 hover:border-brand-500/50";',
+          'corBtn.className=!reg?"rounded-xl border border-brand-500/50 bg-brand-500/10 px-4 py-3 text-left text-sm font-semibold text-brand-300 hover:bg-brand-500/20":"rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-left text-sm font-semibold text-slate-300 hover:border-brand-500/50";',
+          'var labels=reg?[["১. নিজের টিকা কার্ড / EPI কার্ড","শুধু আবেদনকারীর বাংলা নাম; ইংরেজি বানান প্রচলিত নাম অনুযায়ী।"],["২. পিতার জন্ম নিবন্ধন কার্ড","BRN, জন্মতারিখ (DD/MM/YYYY), পিতার বাংলা ও ইংরেজি নাম।"],["৩. মাতার জন্ম নিবন্ধন কার্ড","BRN, জন্মতারিখ (DD/MM/YYYY), মাতার বাংলা ও ইংরেজি নাম।"]]:[["১. ব্যক্তির NID + নিজ জন্ম নিবন্ধন","ব্যক্তির তথ্য NID থেকে; জন্ম নিবন্ধন থেকে শুধু জন্মতারিখ ও BRN।"],["২. পিতার NID / ব্যক্তির সার্টিফিকেট","পিতার বাংলা নাম ব্যক্তির NID থেকে; ইংরেজি নাম আপলোডকৃত নথি থেকে।"],["৩. মাতার NID / ব্যক্তির সার্টিফিকেট","মাতার বাংলা নাম ব্যক্তির NID থেকে; ইংরেজি নাম আপলোডকৃত নথি থেকে।"]];',
+          'labels.forEach(function(item,i){var ps=document.getElementById("dropZone"+(i+1)).querySelectorAll("p");ps[0].textContent=item[0];ps[1].textContent=item[1]});',
+          'document.getElementById("birthWorkflowHint").textContent=reg?"প্রতিটি বক্সে সংশ্লিষ্ট নথির ছবি দিন। বাবা-মায়ের তথ্যকে আবেদনকারীর তথ্য হিসেবে ধরা হবে না।":"বক্স ১-এ একই ব্যক্তির NID ও জন্ম নিবন্ধন আপলোড করুন। বক্স ২ ও ৩-এ পিতা/মাতার NID অথবা ব্যক্তির সার্টিফিকেট দিন।";',
+          '}',
+          'document.addEventListener("DOMContentLoaded",function(){setBirthWorkflow("registration")});',
+          '<' + '/script>'
+        ].join('\n');
+
+        if (source.indexOf('</body>') < 0) throw new Error('ড্যাশবোর্ডের শেষ অংশ পাওয়া যায়নি');
+        source = source.replace('</body>', workflowScript + '\n</body>');
         document.open();
         document.write(source);
         document.close();
       } catch (error) {
         status.textContent = 'ড্যাশবোর্ড লোড করা যায়নি।';
         errorBox.hidden = false;
-        errorBox.textContent = error.message + ' পেজ রিফ্রেশ করুন অথবা নেটওয়ার্ক সংযোগ যাচাই করুন।';
+        errorBox.textContent = (error && error.message ? error.message : String(error)) + ' পেজ রিফ্রেশ করুন অথবা নেটওয়ার্ক সংযোগ যাচাই করুন।';
       }
     })();
   </script>
